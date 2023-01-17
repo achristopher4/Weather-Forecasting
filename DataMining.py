@@ -1,8 +1,7 @@
 ## Weather Data Extraction
 ## Date: 1/15/2023
 
-## Website: https://www.wunderground.com/history/monthly/us/pa/state-college
-
+## Website: http://www.climate.psu.edu/data/current/dailysum.php
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -13,47 +12,54 @@ import time
 import pandas as pd
 
 ## Source Point
-source = "https://www.wunderground.com/history/monthly/us/pa/state-college/KUNV/date/2022-1" 
+source = "http://www.climate.psu.edu/data/current/dailysum.php?id=KPNE"
 
+## Web Scraping
 driver = webdriver.Firefox()
 driver.get(source) 
 
+dataframe = pd.DataFrame()
+last_yeat = None
 
-WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "cdk-overlay-pane")))
+for year in range(1, 24):
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "linkstable")))
+    time.sleep(0.1)
+
+    table = driver.find_elements(by = By.TAG_NAME, value = "table")
+    pandas_readable = table[0].get_attribute('outerHTML')
+    yearData = pd.read_html(pandas_readable)[0]
+    dataframe = pd.concat([dataframe, yearData])
+    time.sleep(0.01)
+
+    select_year = driver.find_element(by = By.TAG_NAME, value = "center").find_elements(by = By.TAG_NAME, value = "select")[-1]
+    select_year.click()
+    time.sleep(0.1)
+    selected_option = select_year.find_elements(by = By.TAG_NAME, value = "option")
+    last_year = selected_option[year].text
+    selected_option[year].click()
+    time.sleep(0.1)
+
+    submit = driver.find_element(by = By.TAG_NAME, value = "center").find_element(by = By.TAG_NAME, value = "input")
+    submit.click()
+    time.sleep(0.01)
+driver.close()
+
+## Data Cleaning
+#  Drop all rows that have subheaders
+dataframe = dataframe[dataframe['Date'] != 'Date']
+
+## Export DataFrame
+filename = "PSU_Climate_Weather_" + last_year + "_2023.csv"
+path = "./Data/" + filename
+dataframe.to_csv(path)
+
+"""
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "linkstable")))
 time.sleep(0.1)
-priv_pol_pop_up = driver.find_element(by = By.CLASS_NAME, value = "cdk-overlay-pane")
-priv_pol_pop_up.find_element(by = By.CLASS_NAME, value = "close").click()
-time.sleep(0.01)
 
-mainColumns = ["Month", "Day", "Year", "Temperature (°F) ", "Dew Point (°F) ", "Humidity (%) ", "Wind Speed (mph) ", 
-                "Pressure (in) ", "Precipitation (in) "]
-subColumns = ["Max", "Avg", "Min"]
-
-main_table = driver.find_element(by = By.CLASS_NAME, value = "days.ng-star-inserted")
-sub_tables_elements = main_table.find_elements(by = By.TAG_NAME, value = "table")
-
-df = pd.DataFrame()
-
-for st in range(len(sub_tables_elements)):
-    pandas_readable = sub_tables_elements[st].get_attribute('outerHTML')
-    sub_table = pd.read_html(pandas_readable)[0]
-    if st > 0:
-        newColumnNames = {}
-        baseName = mainColumns[st + 2]
-        currentNames = sub_table.columns
-        newNames = list(sub_table.iloc[0])
-        sub_table = sub_table.drop(0)
-        for c in range(len(currentNames)):
-            newColumnNames[currentNames[c]] = baseName + newNames[c]
-        sub_table = sub_table.rename(columns = newColumnNames)
-    else:
-        sub_table = pd.DataFrame(sub_table)
-        newNames = list(sub_table.iloc[0])
-        sub_table = sub_table.drop(0)
-        sub_table = sub_table.rename(columns= {0:newNames[0]})
-
-    df = pd.concat([df, sub_table], axis = 1)
-print(df)
-
-
+#table = driver.find_element(by = By.CLASS_NAME, value = "linkstable")
+table = driver.find_elements(by = By.TAG_NAME, value = "table")
+pandas_readable = table[0].get_attribute('outerHTML')
+dataframe = pd.read_html(pandas_readable)[0]
+"""
 
