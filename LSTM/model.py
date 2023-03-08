@@ -1,4 +1,4 @@
-## Turbulent Flow Network Model
+## LSTM Model
 ## Date: 28 Feb 2023
-## Contributors: Alexander Christopher, Werner Hager
+## Contributors: Werner Hager, Alexander Christopher
 
