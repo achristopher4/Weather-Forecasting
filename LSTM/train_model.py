@@ -2,15 +2,8 @@
 ## Date: 28 Feb 2023
 ## Contributors: Alexander Christopher, Werner Hager
 
-import pandas as pd
-import numpy as np
-
-
 #####################################
 ## Import the dataset
-
-filepath = "../Data/df_week.csv"
-data = pd.read_csv(filepath)
 
 ## Lat: Latitude
 ## Lon: Longitude
@@ -31,13 +24,12 @@ data = pd.read_csv(filepath)
 ## tcc: total_cloud_cover               | Fractional cloud cover                            | (0-1)                     | Sinlge
 ## tp: total_precipitation              | Hourly precipitation                              | [m]                       | Single
 
+
 #####################################
 
 
 #####################################
 ## Clean the dataset 
-
-
 
 #####################################
 

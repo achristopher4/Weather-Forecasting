@@ -1,0 +1,23 @@
+## Lat: Latitude
+## Lon: Longitude
+## Time: 
+## Level: hecto-Pascals
+## z:  geopotential | Proportional to the height of a pressure level | [m^(2) s^(−2)] | 13 levels
+    ## describes height in meters and g = 9.81 m s^(−2) is the gravitational acceleration
+## pv: Potential vorticity
+    ## used quantity in synoptic meteorology which combines the rotation (vorticity) and vertical temperature
+    ## gradient of the atmosphere
+## r: 
+## q: 
+## t: temperature | Temperature |
+## u:
+## vo: 
+## v: 
+## u10: 
+## v10: 
+## t2m: 2 meter-temperature
+    ##  used as an impact variable because of its relevance for human activities and 
+    ##  is directly affected by the diurnal solar cycle
+## tisr: 
+## tcc: 
+## tp: 
