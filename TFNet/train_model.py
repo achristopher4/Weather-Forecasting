@@ -1,3 +1,30 @@
 ## Train Model 
 ## Date: 28 Feb 2023
-## Contributors: Alexander Christopher, Werner Hager, Suyang Meng, Samie Saheb
+## Contributors: Alexander Christopher, Werner Hager
+
+#####################################
+## Import the dataset
+
+#####################################
+
+
+#####################################
+## Clean the dataset 
+
+#####################################
+
+
+#####################################
+## Preprocessing 
+
+#####################################
+
+
+#####################################
+## Run through Model
+
+#####################################
+
+
+#####################################
+## Result Visualization
