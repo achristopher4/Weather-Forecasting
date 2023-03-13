@@ -5,6 +5,7 @@
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 #####################################
@@ -38,7 +39,36 @@ data = pd.read_csv(filepath)
 #####################################
 ## Clean the dataset 
 
+## Drop Columns
+    ## 'Unnamed: 0', 'Unnamed: 0.1', 'Unnamed: 0.1.1'
+data = data.drop(['Unnamed: 0', 'Unnamed: 0.1', 'Unnamed: 0.1.1'], axis = 1)
+#data = data.drop(['Unamed: 0_x', 'Unamed: 0_y'], axis = 1)
 
+## Useful Indexing:
+    ## Same lat, log, level --> Unamed: 0_x
+    ## Same lat, log, time --> Unamed: 0_y
+
+## Check for null values
+data = data.dropna()
+
+#####################################
+
+
+#####################################
+## Visualization
+# Find lat, long, and level and compare the graph the u_component_of_wind
+lat, long, low_level, high_level = 47.8125, 67.5, 50, 1000
+
+low_df = data[(data["lat"] == lat) & (data["lon"] == long) & (data["level"] == low_level)] 
+low_df.plot(x = "time", y = "u")
+plt.ylabel("u_component_of_wind")
+plt.xlabel("time")
+
+high_df = data[(data["lat"] == lat) & (data["lon"] == long) & (data["level"] == high_level)] 
+high_df.plot(x = "time", y = "u")
+plt.ylabel("u_component_of_wind")
+plt.xlabel("time")
+#plt.show()
 
 #####################################
 
@@ -51,6 +81,14 @@ data = pd.read_csv(filepath)
 
 #####################################
 ## Run through Model
+
+## predictive attributes
+cols = ['lat', 'lon', 'time', 'level', 'z', 'pv', 'r', 'q', 't',
+       'u', 'vo', 'v', 'u10', 'v10', 't2m', 'tisr', 'tcc',
+       'tp']
+
+
+
 
 #####################################
 
