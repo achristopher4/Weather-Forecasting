@@ -29,20 +29,19 @@ class Model():
         ## Time Series
 
         trainDate = self.train[['lat', 'lon', 'time']]
-        trainInputData = self.train[self.train.columns.difference(['lat', 'lon', 'time'])]
-        print(trainDate.head())
-        print(trainInputData.head())
+        trainInputData = self.train[self.train.columns.difference(['lat', 'lon', 'time', 't2m', 'tcc', 'tp'])]
+        trainAns = self.train[['lat', 'lon', 'time', 't2m', 'tcc', 'tp']]
 
-        #model = Sequential(LSTM(250, input_shape = (trainDate, trainInputData)))
-        #testDate = self.test[self.test['time']]
-        #testInputData = self.test.loc[:, self.train.columns != 'time']
-        #model.add(Dropout(0.2))
-        #model.add(Dense(1))
-        #model.compile(loss='mae', optimizer='adam')
+        """model = Sequential(LSTM(250, input_shape = (trainDate, trainInputData)))
+        testDate = self.test[['lat', 'lon', 'time']]
+        testInputData = self.test[self.test.columns.difference(['lat', 'lon', 'time'])]
+        model.add(Dropout(0.2))
+        model.add(Dense(1))
+        model.compile(loss='mae', optimizer='adam')
 
-        #history = model.fit(trainDate, trainInputData, epochs=250, batch_size=72, validation_data=(testDate, testInputData), verbose=2, shuffle=False)
+        history = model.fit(trainDate, trainInputData, epochs=250, batch_size=72, validation_data=(testDate, testInputData), verbose=2, shuffle=False)
 
-        #plt.plot(history.history['loss'], label='train')
-        #plt.plot(history.history['val_loss'], label='test')
-        #plt.legend()
-        #plt.show()
+        plt.plot(history.history['loss'], label='train')
+        plt.plot(history.history['val_loss'], label='test')
+        plt.legend()
+        plt.show()"""
