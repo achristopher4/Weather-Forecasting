@@ -56,6 +56,9 @@ data = data.drop(['Unnamed: 0_x', 'Unnamed: 0_y'], axis = 1)
 ## Check for null values
 data = data.dropna()
 
+## Format time
+    ## 
+
 
 #####################################
 
