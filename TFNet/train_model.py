@@ -13,6 +13,7 @@ import model as m
 #####################################
 ## Import the dataset
 
+
 filepath = "../Data/df_week.csv"
 data = pd.read_csv(filepath)
 
@@ -35,16 +36,18 @@ data = pd.read_csv(filepath)
 ## tcc: total_cloud_cover               | Fractional cloud cover                            | (0-1)                     | Sinlge
 ## tp: total_precipitation              | Hourly precipitation                              | [m]                       | Single
 
+
 #####################################
 
 
 #####################################
 ## Clean the dataset 
 
+
 ## Drop Columns
     ## 'Unnamed: 0', 'Unnamed: 0.1', 'Unnamed: 0.1.1'
 data = data.drop(['Unnamed: 0', 'Unnamed: 0.1', 'Unnamed: 0.1.1'], axis = 1)
-#data = data.drop(['Unamed: 0_x', 'Unamed: 0_y'], axis = 1)
+data = data.drop(['Unnamed: 0_x', 'Unnamed: 0_y'], axis = 1)
 
 ## Useful Indexing:
     ## Same lat, log, level --> Unamed: 0_x
@@ -53,11 +56,14 @@ data = data.drop(['Unnamed: 0', 'Unnamed: 0.1', 'Unnamed: 0.1.1'], axis = 1)
 ## Check for null values
 data = data.dropna()
 
+
 #####################################
 
 
 #####################################
 ## Visualization
+
+
 # Find lat, long, and level and compare the graph the u_component_of_wind
 lat, long, low_level, high_level = 47.8125, 67.5, 50, 1000
 
@@ -81,30 +87,29 @@ plt.ylabel("u_component_of_wind")
 plt.xlabel("time")
 #plt.show()
 
+
 #####################################
 
 
 #####################################
 ## Preprocessing 
 
+
 ## Generating validation set
 start_val_date = "2018-01-07 00:00:00"
 end_val_date = "2018-01-07 23:00:00"
 
 train = data[start_val_date > data["time"]]
-test = data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
+validation = data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
 
-print(train.head())
-print(train.tail())
-print()
-print(test.head())
-print(test.head())
 
 #####################################
 
 
 #####################################
-## Run through Model
+## Train Model
+
+
 ## User picks lat, lon, time
 ## Sea Level: level = 1000
 ## Set level == 1000 --> temperature (t) & relative humidity (r) set to level 1000
@@ -119,8 +124,9 @@ pred_cols = ['lat', 'lon', 'time', 'level', 'z', 'pv', 'r', 'q', 't',
 tar_cols = ['lat', 'lon', 'time', 'level', 't', 'r', 'tcc', 'tp']
 tar_level = 1000
 
-## base: CNN
-#m.Model(train, test, pred_cols, tar_cols)
+## base model
+m.Model(train, validation, pred_cols, tar_cols)
+
 
 #####################################
 
@@ -131,5 +137,7 @@ tar_level = 1000
 
 
 
+
+#####################################
 
 
