@@ -87,6 +87,19 @@ plt.xlabel("time")
 #####################################
 ## Preprocessing 
 
+## Generating validation set
+start_val_date = "2018-01-07 00:00:00"
+end_val_date = "2018-01-07 23:00:00"
+
+train = data[start_val_date > data["time"]]
+test = data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
+
+print(train.head())
+print(train.tail())
+print()
+print(test.head())
+print(test.head())
+
 #####################################
 
 
@@ -107,11 +120,16 @@ tar_cols = ['lat', 'lon', 'time', 'level', 't', 'r', 'tcc', 'tp']
 tar_level = 1000
 
 ## base: CNN
-
-m.CNN_Model(data, pred_cols, tar_cols)
-
-#####################################
-
+#m.Model(train, test, pred_cols, tar_cols)
 
 #####################################
-## Result Visualization
+
+
+#####################################
+## Testing Evaluation & Visualization
+
+
+
+
+
+

@@ -7,16 +7,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
 
+from keras.models import Sequential
+from keras.layers import LSTM
 
-class CNN_Model():
-    def __init__(self, data, cols, target) -> None:
+
+class Model():
+    def __init__(self, train, test, cols, target) -> None:
         seed = 42
         tf.random.set_seed(seed)
         np.random.seed(seed)
-        self.data = data
+        self.train = train
+        self.test = test
         self.pred_cols = cols
         self.target_level = 1000
         self.target_cols = target
+        self.time_series()
     
-    def initalize_model(self):
-        pass
+    def time_series(self):
+        date = self.train['time']
+        inputData = self.train.loc[:, self.train.columns != 'time']
+        model = Sequential(LSTM(250, input_shape = (date, inputData)))
+        model.compile(loss='mae', optimizer='adam')
