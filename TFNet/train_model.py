@@ -82,11 +82,19 @@ plt.xlabel("time")
 #####################################
 ## Run through Model
 
-## predictive attributes
-cols = ['lat', 'lon', 'time', 'level', 'z', 'pv', 'r', 'q', 't',
+## Predictive Attributes
+pred_cols = ['lat', 'lon', 'time', 'level', 'z', 'pv', 'r', 'q', 't',
        'u', 'vo', 'v', 'u10', 'v10', 't2m', 'tisr', 'tcc',
        'tp']
 
+## Target Attributes
+tar_cols = ['lat', 'lon', 'time', 'level', 't', 'r', 'tcc', 'tp']
+tar_level = 1000
+
+## User picks lat, lon, time
+## Sea Level: level = 1000
+## Set level == 1000 --> temperature (t) & relative humidity (r) set to level 1000
+## total cloud cover (tcc) & total prepicpation (tp) single level no need to set
 
 
 

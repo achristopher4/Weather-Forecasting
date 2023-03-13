@@ -1,7 +1,6 @@
-## LSTM Train Model 
+## Train Model 
 ## Date: 28 Feb 2023
-## Contributors: Werner Hager, Alexander Christopher
-
+## Contributors: Alexander Christopher, Werner Hager
 
 #####################################
 ## Import the dataset
@@ -32,8 +31,6 @@
 #####################################
 ## Clean the dataset 
 
-
-
 #####################################
 
 
@@ -49,5 +46,7 @@
 #####################################
 
 
+#####################################
+## Result Visualization
 #####################################
 ## Result Visualization
