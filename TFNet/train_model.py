@@ -6,6 +6,8 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import model as m
+
 
 
 #####################################
@@ -64,6 +66,15 @@ low_df.plot(x = "time", y = "u")
 plt.ylabel("u_component_of_wind")
 plt.xlabel("time")
 
+
+low_df.plot(x = "time", y = "tcc")
+plt.ylabel("Total Cloud Cover")
+plt.xlabel("time")
+
+low_df.plot(x = "time", y = "tp")
+plt.ylabel("Total Percipation")
+plt.xlabel("time")
+
 high_df = data[(data["lat"] == lat) & (data["lon"] == long) & (data["level"] == high_level)] 
 high_df.plot(x = "time", y = "u")
 plt.ylabel("u_component_of_wind")
@@ -81,6 +92,10 @@ plt.xlabel("time")
 
 #####################################
 ## Run through Model
+## User picks lat, lon, time
+## Sea Level: level = 1000
+## Set level == 1000 --> temperature (t) & relative humidity (r) set to level 1000
+## total cloud cover (tcc) & total prepicpation (tp) single level no need to set
 
 ## Predictive Attributes
 pred_cols = ['lat', 'lon', 'time', 'level', 'z', 'pv', 'r', 'q', 't',
@@ -91,12 +106,9 @@ pred_cols = ['lat', 'lon', 'time', 'level', 'z', 'pv', 'r', 'q', 't',
 tar_cols = ['lat', 'lon', 'time', 'level', 't', 'r', 'tcc', 'tp']
 tar_level = 1000
 
-## User picks lat, lon, time
-## Sea Level: level = 1000
-## Set level == 1000 --> temperature (t) & relative humidity (r) set to level 1000
-## total cloud cover (tcc) & total prepicpation (tp) single level no need to set
+## base: CNN
 
-
+m.CNN_Model(data, pred_cols, tar_cols)
 
 #####################################
 
