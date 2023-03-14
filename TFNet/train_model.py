@@ -38,6 +38,14 @@ data = pd.read_csv(filepath)
 ## tp: total_precipitation              | Hourly precipitation                              | [m]                       | Single
 
 
+    ## Positive u_component_of_wind --> Wind coming from the West
+    ## Negative u_component_of_wind --> Wind coming from the East
+    ## Positive v_component_of_wind --> Wind coming from the South
+    ## Negative v_component_of_wind --> Wind coming from the North
+    ## Wind Speed = sqrt(U*U + V*V)
+    ## Wind Direction Angle = arctan(V/U
+
+
 #####################################
 
 

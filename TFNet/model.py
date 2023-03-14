@@ -26,9 +26,13 @@ class Model():
         
         date_time = pd.to_datetime(self.train.pop('time'), format= "%Y-%m-%d %H:%M:%S")
 
-        print(self.train.head())
-        print()
-        print(date_time)
+        ## Positive u_component_of_wind --> Wind coming from the West
+        ## Negative u_component_of_wind --> Wind coming from the East
+        ## Positive v_component_of_wind --> Wind coming from the South
+        ## Negative v_component_of_wind --> Wind coming from the North
+        ## Wind Speed = sqrt(U*U + V*V)
+        ## Wind Direction Angle = arctan(V/U)
+        
 
 
 
