@@ -124,11 +124,12 @@ pred_cols = ['lat', 'lon', 'time', 'level', 'z', 'pv', 'r', 'q', 't',
        'tp']
 
 ## Target Attributes
-tar_cols = ['lat', 'lon', 'time', 'level', 't', 'r', 'tcc', 'tp']
-tar_level = 1000
+#tar_cols = ['lat', 'lon', 'time', 'level', 't', 'r', 'tcc', 'tp']
+#tar_level = 1000
+target_cols = ['lat', 'lon', 'time', 't2m', 'tcc', 'tp']
 
 ## base model
-m.Model(train, validation, pred_cols, tar_cols)
+m.Model(train, validation, pred_cols, target_cols)
 
 
 #####################################

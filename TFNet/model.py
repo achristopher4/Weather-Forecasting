@@ -28,7 +28,7 @@ class Model():
     def base_model(self):
         ## Time Series
 
-        trainDate = self.train[['lat', 'lon', 'time']]
+        trainIndex = self.train[['lat', 'lon', 'time']]
         trainInputData = self.train[self.train.columns.difference(['lat', 'lon', 'time', 't2m', 'tcc', 'tp'])]
         trainAns = self.train[['lat', 'lon', 'time', 't2m', 'tcc', 'tp']]
 
