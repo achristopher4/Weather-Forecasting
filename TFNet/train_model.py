@@ -6,7 +6,8 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import model as m
+#import model as m
+import test_model as m
 
 
 
@@ -64,9 +65,6 @@ data = data.drop(['Unnamed: 0_x', 'Unnamed: 0_y'], axis = 1)
 
 ## Check for null values
 data = data.dropna()
-
-## Format time
-    ## 
 
 
 #####################################
