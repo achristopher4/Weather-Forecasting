@@ -6,8 +6,8 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-#import model as m
-import test_model as m
+#import model as Model
+import test_model as Model
 
 
 
@@ -105,12 +105,15 @@ plt.xlabel("time")
 ## Preprocessing 
 
 
-## Generating validation set
-start_val_date = "2018-01-07 00:00:00"
-end_val_date = "2018-01-07 23:00:00"
+## Generating validation and test dataset
+start_val_date = "2018-01-06 00:00:00"
+end_val_date = "2018-01-06 23:00:00"
+start_test_date = "2018-01-07 00:00:00"
+end_test_date = "2018-01-07 23:00:00"
 
-train = data[start_val_date > data["time"]]
-validation = data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
+train_data = data[start_val_date > data["time"]]
+validation_data = data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
+test_data = data[(start_test_date <= data["time"]) & (data["time"] <= end_test_date)]
 
 
 #####################################
@@ -120,23 +123,13 @@ validation = data[(start_val_date <= data["time"]) & (data["time"] <= end_val_da
 ## Train Model
 
 
-## User picks lat, lon, time
-## Sea Level: level = 1000
-## Set level == 1000 --> temperature (t) & relative humidity (r) set to level 1000
-## total cloud cover (tcc) & total prepicpation (tp) single level no need to set
-
-## Predictive Attributes
-pred_cols = ['lat', 'lon', 'time', 'level', 'z', 'pv', 'r', 'q', 't',
-       'u', 'vo', 'v', 'u10', 'v10', 't2m', 'tisr', 'tcc',
-       'tp']
-
-## Target Attributes
-#tar_cols = ['lat', 'lon', 'time', 'level', 't', 'r', 'tcc', 'tp']
-#tar_level = 1000
-target_cols = ['lat', 'lon', 'time', 't2m', 'tcc', 'tp']
+model = Model(train_data, validation_data, test_data)
 
 ## base model
-m.Model(train, validation, pred_cols, target_cols)
+base_model = model.base()
+
+## TFNet
+tfnet_model = model.tfnet()
 
 
 #####################################

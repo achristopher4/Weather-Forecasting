@@ -2,7 +2,56 @@
 ## Date: 28 Feb 2023
 ## Contributors: Alexander Christopher, Werner Hager
 
+
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import tensorflow as tf
+
+
+class Model():
+    ## User picks lat, lon, time
+    ## Sea Level: level = 1000
+    ## Set level == 1000 --> temperature (t) & relative humidity (r) set to level 1000
+    ## total cloud cover (tcc) & total prepicpation (tp) single level no need to set
+
+    ## Predictive Attributes
+    #pred_cols = ['lat', 'lon', 'time', 'level', 'z', 'pv', 'r', 'q', 't',
+    #    'u', 'vo', 'v', 'u10', 'v10', 't2m', 'tisr', 'tcc',
+    #    'tp']
+
+    ## Target Attributes
+    #tar_cols = ['lat', 'lon', 'time', 'level', 't', 'r', 'tcc', 'tp']
+    #tar_level = 1000
+    #target_cols = ['lat', 'lon', 'time', 't2m', 'tcc', 'tp']
+
+    def __init__(self, train, validation, test) -> None:
+        seed = 4
+        tf.random.set_seed(seed)
+        np.random.seed(seed)
+        self.train = train
+        self.validation = validation
+        self.test = test
+
+    def base(self):
+        pass
+
+    def tfnet(self):
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -139,4 +188,4 @@ class WindowGenerator():
         f'Total window size: {self.total_window_size}',
         f'Input indices: {self.input_indices}',
         f'Label indices: {self.label_indices}',
-        f'Label column name(s): {self.label_columns}'])
+        f'Label column name(s): {self.label_columns}'])"""
