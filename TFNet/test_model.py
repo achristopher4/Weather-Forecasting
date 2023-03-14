@@ -54,11 +54,15 @@ class Model():
     def base(self):
         date_time = pd.to_datetime(self.train.pop('time'), format= "%Y-%m-%d %H:%M:%S")
         #location = 
-        plot_cols = ['z', 'pv', 'r', 'q', 't', 'u', 'vo', 'v']
+
+        """plot_cols = ['z', 'pv', 'r', 'q', 't', 'u', 'vo', 'v']
         plot_features = self.train[plot_cols]
         plot_features.index = date_time
         _ = plot_features.plot(subplots=True)
-        plt.show()
+        plt.show()"""
+
+        ## **** Add Smoothing *******
+
 
     def tfnet(self):
         pass
