@@ -15,6 +15,7 @@ import model as m
 
 
 filepath = "../Data/df_week.csv"
+#filepath = "../Data/one_day_testing.csv"
 data = pd.read_csv(filepath)
 
 ## Lat: Latitude

@@ -6,11 +6,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
-
-from keras.models import Sequential
-from keras.layers import LSTM
-from keras.layers import Dense
-from keras.layers import Dropout
+import geopandas as gpd
 
 
 class Model():
@@ -27,12 +23,24 @@ class Model():
     
     def base_model(self):
         ## Time Series
+        
+        date_time = pd.to_datetime(self.train.pop('time'), format= "%Y-%m-%d %H:%M:%S")
 
-        trainIndex = self.train[['lat', 'lon', 'time']]
+        print(self.train.head())
+        print()
+        print(date_time)
+
+
+
+
+
+
+
+        """trainIndex = self.train[['lat', 'lon', 'time']]
         trainInputData = self.train[self.train.columns.difference(['lat', 'lon', 'time', 't2m', 'tcc', 'tp'])]
         trainAns = self.train[['lat', 'lon', 'time', 't2m', 'tcc', 'tp']]
 
-        """model = Sequential(LSTM(250, input_shape = (trainDate, trainInputData)))
+        model = Sequential(LSTM(250, input_shape = (trainDate, trainInputData)))
         testDate = self.test[['lat', 'lon', 'time']]
         testInputData = self.test[self.test.columns.difference(['lat', 'lon', 'time'])]
         model.add(Dropout(0.2))
