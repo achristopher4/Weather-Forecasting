@@ -1,4 +1,4 @@
-## TFNet Model
+## Final Iteration of TFNet Model
 ## Date: 28 Feb 2023
 ## Contributors: Alexander Christopher, Werner Hager
 

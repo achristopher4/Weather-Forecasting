@@ -8,6 +8,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
 
+import IPython
+import IPython.display
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import tensorflow as tf
+
 
 class Model():
     ## User picks lat, lon, time
@@ -33,8 +42,23 @@ class Model():
         self.validation = validation
         self.test = test
 
-    def base(self):
+    def dataConversion(self):
+        ## Positive u_component_of_wind --> Wind coming from the West
+        ## Negative u_component_of_wind --> Wind coming from the East
+        ## Positive v_component_of_wind --> Wind coming from the South
+        ## Negative v_component_of_wind --> Wind coming from the North
+        ## Wind Speed = sqrt(U*U + V*V)
+        ## Wind Direction Angle = arctan(V/U)
         pass
+
+    def base(self):
+        date_time = pd.to_datetime(self.train.pop('time'), format= "%Y-%m-%d %H:%M:%S")
+        #location = 
+        plot_cols = ['z', 'pv', 'r', 'q', 't', 'u', 'vo', 'v']
+        plot_features = self.train[plot_cols]
+        plot_features.index = date_time
+        _ = plot_features.plot(subplots=True)
+        plt.show()
 
     def tfnet(self):
         pass

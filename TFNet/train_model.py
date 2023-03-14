@@ -6,8 +6,8 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-#import model as Model
-import test_model as Model
+#import model as m
+import test_model as m
 
 
 
@@ -75,7 +75,7 @@ data = data.dropna()
 
 
 # Find lat, long, and level and compare the graph the u_component_of_wind
-lat, long, low_level, high_level = 47.8125, 67.5, 50, 1000
+"""lat, long, low_level, high_level = 47.8125, 67.5, 50, 1000
 
 low_df = data[(data["lat"] == lat) & (data["lon"] == long) & (data["level"] == low_level)] 
 low_df.plot(x = "time", y = "u")
@@ -95,7 +95,7 @@ high_df = data[(data["lat"] == lat) & (data["lon"] == long) & (data["level"] == 
 high_df.plot(x = "time", y = "u")
 plt.ylabel("u_component_of_wind")
 plt.xlabel("time")
-#plt.show()
+plt.show()"""
 
 
 #####################################
@@ -123,7 +123,7 @@ test_data = data[(start_test_date <= data["time"]) & (data["time"] <= end_test_d
 ## Train Model
 
 
-model = Model(train_data, validation_data, test_data)
+model = m.Model(train_data, validation_data, test_data)
 
 ## base model
 base_model = model.base()
