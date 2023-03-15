@@ -78,8 +78,8 @@ class Model():
         day = 24*hour
         year = 365.2425 * day 
 
-        self.train['Hour sin'] = np.sin(timestamp_s * (2 * np.pi / hour))
-        self.train['Hour cos'] = np.cos(timestamp_s * (2 * np.pi / hour))
+        #self.train['Hour sin'] = np.sin(timestamp_s * (2 * np.pi / hour))
+        #self.train['Hour cos'] = np.cos(timestamp_s * (2 * np.pi / hour))
         self.train['Day sin'] = np.sin(timestamp_s * (2 * np.pi / day))
         self.train['Day cos'] = np.cos(timestamp_s * (2 * np.pi / day))
         self.train['Year sin'] = np.sin(timestamp_s * (2 * np.pi / year))
@@ -92,18 +92,27 @@ class Model():
         plt.title('Time of day signal')
         plt.show()"""
 
-        plt.plot(np.array(self.train['Hour sin'])[:25])
-        plt.plot(np.array(self.train['Hour cos'])[:25])
-        plt.xlabel('Time [h]')
-        plt.title('Time of day signal')
-        plt.show()
-
         ## Visualization of geolocation
         """plt.figure(figsize = (10,7))
         sns.scatterplot(data=self.train, x='lon', y='lat')
         plt.show()"""
 
-        ## 
+        ## most important frequency features
+        """fft = tf.signal.rfft(self.train['t'])
+        f_per_dataset = np.arange(0, len(fft))
+
+        n_samples_h = len(self.train['t'])
+        hours_per_year = 24*365.2524
+        years_per_dataset = n_samples_h/(hours_per_year)
+
+        f_per_year = f_per_dataset/years_per_dataset
+        plt.step(f_per_year, np.abs(fft))
+        plt.xscale('log')
+        plt.ylim(0, 4000000)
+        plt.xlim([0.1, max(plt.xlim())])
+        plt.xticks([1, 12, 52, 365.2524, 24*365.2524], labels=['1/Year', '1/month', '1/week', '1/day', '1/hour'])
+        _ = plt.xlabel('Frequency (log scale)')
+        plt.show()"""
 
 
 
