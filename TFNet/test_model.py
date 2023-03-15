@@ -116,9 +116,18 @@ class Model():
 
         ## Normalize the dataset
         # remove lat and lon columns before normalization
-        base_train_ltlg = self.baseTrain.pop(['lat', 'long'])
-        base_validation_ltlg = self.baseValidation.pop(['lat', 'long'])
-        base_test_ltlg = self.baseTest.pop(['lat', 'long'])
+
+
+        ## Categorize u10, v10, t2m, tisr, tcc, tp by location and time --> Normalize separately 
+        ## Split data by level, lat, and log --> normalize each by their respective location, level, and time --> put back together
+        ## Add u10, v10, t2m, tisr, tcc, tp back into the dataset
+
+
+
+        base_train_ltlg = self.baseTrain[['lat', 'lon', 'level']]
+        self.baseTrain = self.baseTrain.drop(['lat', 'lon', 'level'], axis = 1)
+        #base_validation_ltlg = self.baseValidation.pop(['lat', 'lon'])
+        #base_test_ltlg = self.baseTest.pop(['lat', 'lon'])
 
         # normalize datasets with moving average
         base_train_f5 = self.baseTrain.head(5)
@@ -129,6 +138,8 @@ class Model():
         base_train = None 
         base_validation = None
         base_test = None
+
+        ## Split into training and validation
 
         ## Data Windowing
 

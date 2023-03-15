@@ -111,9 +111,82 @@ end_val_date = "2018-01-06 23:00:00"
 start_test_date = "2018-01-07 00:00:00"
 end_test_date = "2018-01-07 23:00:00"
 
-train_data = data[start_val_date > data["time"]]
-validation_data = data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
+train_data = data[start_test_date > data["time"]]
 test_data = data[(start_test_date <= data["time"]) & (data["time"] <= end_test_date)]
+
+date_time = pd.to_datetime(train_data.pop('time'), format= "%Y-%m-%d %H:%M:%S")
+#location = 
+
+## Raw Data Visualization
+"""plot_cols = ['z', 'pv', 'r', 'q', 't', 'u', 'vo', 'v']
+plot_features = train_data[plot_cols]
+plot_features.index = date_time
+_ = plot_features.plot(subplots=True)
+plt.show()"""
+
+## Data Transposing Visualization
+print(train_data.describe().transpose())
+print()
+
+
+## Feature Engineering
+## Columns u, v in vector form already
+
+## Converting time into seconds
+timestamp_s = date_time.map(pd.Timestamp.timestamp)
+
+## Converting timestamps_s into periodicity interpertable info
+hour = 60*60
+day = 24*hour
+year = 365.2425 * day 
+
+#self.baseTrain['Hour sin'] = np.sin(timestamp_s * (2 * np.pi / hour))
+#self.baseTrain['Hour cos'] = np.cos(timestamp_s * (2 * np.pi / hour))
+train_data['Day sin'] = np.sin(timestamp_s * (2 * np.pi / day))
+train_data['Day cos'] = np.cos(timestamp_s * (2 * np.pi / day))
+train_data['Year sin'] = np.sin(timestamp_s * (2 * np.pi / year))
+train_data['Year cos'] = np.cos(timestamp_s * (2 * np.pi / year))
+
+# visualization of new attributes
+"""plt.plot(np.array(train_data['Day sin'])[:500])
+plt.plot(np.array(train_data['Day cos'])[:500])
+plt.xlabel('Time [h]')
+plt.title('Time of day signal')
+plt.show()"""
+
+## Visualization of geolocation
+"""plt.figure(figsize = (10,7))
+sns.scatterplot(data=train_data, x='lon', y='lat')
+plt.show()"""
+
+## most important frequency features
+"""fft = tf.signal.rfft(train_data['t'])
+f_per_dataset = np.arange(0, len(fft))
+
+n_samples_h = len(train_data['t'])
+hours_per_year = 24*365.2524
+years_per_dataset = n_samples_h/(hours_per_year)
+
+f_per_year = f_per_dataset/years_per_dataset
+plt.step(f_per_year, np.abs(fft))
+plt.xscale('log')
+plt.ylim(0, 4000000)
+plt.xlim([0.1, max(plt.xlim())])
+plt.xticks([1, 12, 52, 365.2524, 24*365.2524], labels=['1/Year', '1/month', '1/week', '1/day', '1/hour'])
+_ = plt.xlabel('Frequency (log scale)')
+plt.show()"""
+
+## Normalize the dataset
+
+## Categorize u10, v10, t2m, tisr, tcc, tp by location and time --> Normalize separately 
+## Split data by level, lat, and log --> normalize each by their respective location, level, and time --> put back together
+## Add u10, v10, t2m, tisr, tcc, tp back into the dataset
+
+## remove lat and lon columns before normalization
+
+train_data = train_data[start_val_date > data["time"]]
+validation_data = train_data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
+## Drop cos sin day and year from validation dataset
 
 
 #####################################
