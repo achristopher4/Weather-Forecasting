@@ -74,21 +74,36 @@ class Model():
         timestamp_s = date_time.map(pd.Timestamp.timestamp)
 
         ## Converting timestamps_s into periodicity interpertable info
-        day = 24*60*60
+        hour = 60*60
+        day = 24*hour
         year = 365.2425 * day 
 
+        self.train['Hour sin'] = np.sin(timestamp_s * (2 * np.pi / hour))
+        self.train['Hour cos'] = np.cos(timestamp_s * (2 * np.pi / hour))
         self.train['Day sin'] = np.sin(timestamp_s * (2 * np.pi / day))
         self.train['Day cos'] = np.cos(timestamp_s * (2 * np.pi / day))
         self.train['Year sin'] = np.sin(timestamp_s * (2 * np.pi / year))
         self.train['Year cos'] = np.cos(timestamp_s * (2 * np.pi / year))
 
         # visualization of new attributes
-        plt.plot(np.array(self.train['Day sin'])[:25])
-        plt.plot(np.array(self.train['Day cos'])[:25])
+        """plt.plot(np.array(self.train['Day sin'])[:500])
+        plt.plot(np.array(self.train['Day cos'])[:500])
+        plt.xlabel('Time [h]')
+        plt.title('Time of day signal')
+        plt.show()"""
+
+        plt.plot(np.array(self.train['Hour sin'])[:25])
+        plt.plot(np.array(self.train['Hour cos'])[:25])
         plt.xlabel('Time [h]')
         plt.title('Time of day signal')
         plt.show()
 
+        ## Visualization of geolocation
+        """plt.figure(figsize = (10,7))
+        sns.scatterplot(data=self.train, x='lon', y='lat')
+        plt.show()"""
+
+        ## 
 
 
 
