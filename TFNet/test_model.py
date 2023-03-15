@@ -55,11 +55,47 @@ class Model():
         date_time = pd.to_datetime(self.train.pop('time'), format= "%Y-%m-%d %H:%M:%S")
         #location = 
 
+        ## Raw Data Visualization
         """plot_cols = ['z', 'pv', 'r', 'q', 't', 'u', 'vo', 'v']
         plot_features = self.train[plot_cols]
         plot_features.index = date_time
         _ = plot_features.plot(subplots=True)
         plt.show()"""
+
+        ## Data Transposing Visualization
+        print(self.train.describe().transpose())
+        print()
+
+
+        ## Feature Engineering
+        ## Columns u, v in vector form already
+
+        ## Converting time into seconds
+        timestamp_s = date_time.map(pd.Timestamp.timestamp)
+
+        ## Converting timestamps_s into periodicity interpertable info
+        day = 24*60*60
+        year = 365.2425 * day 
+
+        self.train['Day sin'] = np.sin(timestamp_s * (2 * np.pi / day))
+        self.train['Day cos'] = np.cos(timestamp_s * (2 * np.pi / day))
+        self.train['Year sin'] = np.sin(timestamp_s * (2 * np.pi / year))
+        self.train['Year cos'] = np.cos(timestamp_s * (2 * np.pi / year))
+
+        # visualization of new attributes
+        plt.plot(np.array(self.train['Day sin'])[:25])
+        plt.plot(np.array(self.train['Day cos'])[:25])
+        plt.xlabel('Time [h]')
+        plt.title('Time of day signal')
+        plt.show()
+
+
+
+
+
+        ## Encoder --> keep it in a single form --> throw it into time series --> done
+
+
 
         ## **** Add Smoothing *******
 
