@@ -38,9 +38,9 @@ class Model():
         seed = 4
         tf.random.set_seed(seed)
         np.random.seed(seed)
-        self.train = train
-        self.validation = validation
-        self.test = test
+        self.baseTrain = train
+        self.baseValidation = validation
+        self.baseTest = test
 
     def dataConversion(self):
         ## Positive u_component_of_wind --> Wind coming from the West
@@ -52,7 +52,7 @@ class Model():
         pass
 
     def base(self):
-        date_time = pd.to_datetime(self.train.pop('time'), format= "%Y-%m-%d %H:%M:%S")
+        date_time = pd.to_datetime(self.baseTrain.pop('time'), format= "%Y-%m-%d %H:%M:%S")
         #location = 
 
         ## Raw Data Visualization
@@ -63,7 +63,7 @@ class Model():
         plt.show()"""
 
         ## Data Transposing Visualization
-        print(self.train.describe().transpose())
+        print(self.baseTrain.describe().transpose())
         print()
 
 
@@ -78,30 +78,30 @@ class Model():
         day = 24*hour
         year = 365.2425 * day 
 
-        #self.train['Hour sin'] = np.sin(timestamp_s * (2 * np.pi / hour))
-        #self.train['Hour cos'] = np.cos(timestamp_s * (2 * np.pi / hour))
-        self.train['Day sin'] = np.sin(timestamp_s * (2 * np.pi / day))
-        self.train['Day cos'] = np.cos(timestamp_s * (2 * np.pi / day))
-        self.train['Year sin'] = np.sin(timestamp_s * (2 * np.pi / year))
-        self.train['Year cos'] = np.cos(timestamp_s * (2 * np.pi / year))
+        #self.baseTrain['Hour sin'] = np.sin(timestamp_s * (2 * np.pi / hour))
+        #self.baseTrain['Hour cos'] = np.cos(timestamp_s * (2 * np.pi / hour))
+        self.baseTrain['Day sin'] = np.sin(timestamp_s * (2 * np.pi / day))
+        self.baseTrain['Day cos'] = np.cos(timestamp_s * (2 * np.pi / day))
+        self.baseTrain['Year sin'] = np.sin(timestamp_s * (2 * np.pi / year))
+        self.baseTrain['Year cos'] = np.cos(timestamp_s * (2 * np.pi / year))
 
         # visualization of new attributes
-        """plt.plot(np.array(self.train['Day sin'])[:500])
-        plt.plot(np.array(self.train['Day cos'])[:500])
+        """plt.plot(np.array(self.baseTrain['Day sin'])[:500])
+        plt.plot(np.array(self.baseTrain['Day cos'])[:500])
         plt.xlabel('Time [h]')
         plt.title('Time of day signal')
         plt.show()"""
 
         ## Visualization of geolocation
         """plt.figure(figsize = (10,7))
-        sns.scatterplot(data=self.train, x='lon', y='lat')
+        sns.scatterplot(data=self.baseTrain, x='lon', y='lat')
         plt.show()"""
 
         ## most important frequency features
-        """fft = tf.signal.rfft(self.train['t'])
+        """fft = tf.signal.rfft(self.baseTrain['t'])
         f_per_dataset = np.arange(0, len(fft))
 
-        n_samples_h = len(self.train['t'])
+        n_samples_h = len(self.baseTrain['t'])
         hours_per_year = 24*365.2524
         years_per_dataset = n_samples_h/(hours_per_year)
 
@@ -114,6 +114,23 @@ class Model():
         _ = plt.xlabel('Frequency (log scale)')
         plt.show()"""
 
+        ## Normalize the dataset
+        # remove lat and lon columns before normalization
+        base_train_ltlg = self.baseTrain.pop(['lat', 'long'])
+        base_validation_ltlg = self.baseValidation.pop(['lat', 'long'])
+        base_test_ltlg = self.baseTest.pop(['lat', 'long'])
+
+        # normalize datasets with moving average
+        base_train_f5 = self.baseTrain.head(5)
+        base_train = self.baseTrain.rolling(window=5).mean()
+        print(base_train.head(10))
+
+        # add lat and lon columns after normalization
+        base_train = None 
+        base_validation = None
+        base_test = None
+
+        ## Data Windowing
 
 
 
