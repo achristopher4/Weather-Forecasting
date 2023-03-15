@@ -15,7 +15,7 @@ import test_model as m
 ## Import the dataset
 
 
-filepath = "../Data/df_week.csv"
+filepath = "../Data/Raw/df_week.csv"
 #filepath = "../Data/one_day_testing.csv"
 data = pd.read_csv(filepath)
 
@@ -71,7 +71,7 @@ data = data.dropna()
 
 
 #####################################
-## Visualization
+## Raw Data Visualization
 
 
 # Find lat, long, and level and compare the graph the u_component_of_wind
@@ -177,12 +177,16 @@ _ = plt.xlabel('Frequency (log scale)')
 plt.show()"""
 
 ## Normalize the dataset
-
 ## Categorize u10, v10, t2m, tisr, tcc, tp by location and time --> Normalize separately 
-## Split data by level, lat, and log --> normalize each by their respective location, level, and time --> put back together
-## Add u10, v10, t2m, tisr, tcc, tp back into the dataset
+single_level = train_data[train_data['level'] == 1000][['lat', 'lon', 'u10', 'v10', 't2m', 'tisr', 'tcc', 'tp']]
 
 ## remove lat and lon columns before normalization
+
+## Split data by level, lat, and log --> normalize each by their respective location, level, and time --> put back together
+multi_level = None
+## remove lat and lon columns before normalization
+
+## Add u10, v10, t2m, tisr, tcc, tp back into the dataset
 
 train_data = train_data[start_val_date > data["time"]]
 validation_data = train_data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
@@ -199,7 +203,7 @@ validation_data = train_data[(start_val_date <= data["time"]) & (data["time"] <=
 model = m.Model(train_data, validation_data, test_data)
 
 ## base model
-base_model = model.base()
+#base_model = model.base()
 
 ## TFNet
 tfnet_model = model.tfnet()
