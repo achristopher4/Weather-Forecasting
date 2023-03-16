@@ -53,7 +53,15 @@ class Model():
 
     def base(self):
         ## Data Windowing
+        # predict 24 hours into the future
+            # Input width: 7 * 24 = 168 (test data only)
+            # Output width: 24
 
+        # predict 7 days into the future
+            # Input width: 7 = 7 (test data only)
+            # Output width: 7
+
+        pass
 
 
         ## Encoder --> keep it in a single form --> throw it into time series --> done
