@@ -184,6 +184,7 @@ moving_avg = 5
 single_level = train_data[train_data['level'] == 1000][['lat', 'lon', 'time', 'u10', 'v10', 't2m', 'tisr', 'tcc', 'tp']]
 preserved_single = single_level.head(moving_avg)
 single_level = single_level.reset_index().set_index('time').groupby(['lat', 'lon']).rolling(window=moving_avg).mean()
+single_level = single_level.reset_index()
 #print(preserved_single)
 #print(single_level.head(10))
 #print('\n\n')
@@ -192,15 +193,19 @@ single_level = single_level.reset_index().set_index('time').groupby(['lat', 'lon
 multi_level = train_data[train_data['level'] == 1000][['lat', 'lon', 'time', 'level', 'z', 'pv', 'r', 'q', 't', 'u', 'vo', 'v']]
 preserved_multi = multi_level.head(moving_avg)
 multi_level = multi_level.reset_index().set_index('time').groupby(['lat', 'lon', 'level']).rolling(window=moving_avg).mean()
+multi_level = multi_level.reset_index()
 #print(preserved_multi)
 #print(multi_level.head(10))
 
-## merging the normalized datasets back together
+## Merging the normalized datasets back together
+train_data = pd.merge(multi_level, single_level,  how='left', left_on=['lat', 'lon', 'time'], right_on = ['lat', 'lon', 'time'])
+train_data = train_data.dropna()
+print(train_data.head(10))
 
+## Split data into training and validation datasets
+train_data = train_data[start_val_date > data["time"]]
+validation_data = train_data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
 
-
-#train_data = train_data[start_val_date > data["time"]]
-#validation_data = train_data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
 ## Drop cos sin day and year from validation dataset
 
 
