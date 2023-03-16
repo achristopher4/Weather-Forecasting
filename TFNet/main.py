@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import model as m
+import window as w
 #import test_model as m
 
 
@@ -206,7 +207,9 @@ print(train_data.head(10))
 train_data = train_data[start_val_date > data["time"]]
 validation_data = train_data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
 
-## Drop cos sin day and year from validation dataset
+## Drop cos sin day and year from validation dataset ?
+
+## Create tf.data.dataset
 
 
 #####################################
