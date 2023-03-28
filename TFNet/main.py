@@ -205,8 +205,8 @@ print()
 ## Split data into training and validation datasets
 start_val_date = "2018-01-06 00:00:00"
 
-train_data = train_data[train_data["time"] < start_val_date ]
 validation_data = train_data[train_data["time"] >= start_val_date ]
+train_data = train_data[train_data["time"] < start_val_date ]
 
 print("Train")
 print(train_data)
