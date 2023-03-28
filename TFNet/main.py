@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import model as m
 import window as w
+import tensorflow as tf
 #import test_model as m
 
 
@@ -107,13 +108,11 @@ plt.show()"""
 
 
 ## Generating validation and test dataset
-start_val_date = "2018-01-06 00:00:00"
-end_val_date = "2018-01-06 23:00:00"
 start_test_date = "2018-01-07 00:00:00"
 end_test_date = "2018-01-07 23:00:00"
 
-train_data = data[start_test_date > data["time"]]
-test_data = data[(start_test_date <= data["time"]) & (data["time"] <= end_test_date)]
+train_data = data[start_test_date < data["time"]]
+test_data = data[(start_test_date >= data["time"])]
 
 #date_time = pd.to_datetime(train_data.pop('time'), format= "%Y-%m-%d %H:%M:%S")
 date_time = pd.to_datetime(train_data['time'], format= "%Y-%m-%d %H:%M:%S")
@@ -202,12 +201,55 @@ multi_level = multi_level.reset_index()
 train_data = pd.merge(multi_level, single_level,  how='left', left_on=['lat', 'lon', 'time'], right_on = ['lat', 'lon', 'time'])
 train_data = train_data.dropna()
 print(train_data.head(10))
+print()
 
 ## Split data into training and validation datasets
-train_data = train_data[start_val_date > data["time"]]
-validation_data = train_data[(start_val_date <= data["time"]) & (data["time"] <= end_val_date)]
+start_val_date = "2018-01-06 00:00:00"
+end_val_date = "2018-01-06 23:00:00"
+
+train_data = train_data[train_data["time"] <= start_val_date ]
+validation_data = train_data[train_data["time"] > start_val_date]
+
+print("Train")
+print(train_data)
+print("-"*60 + '\n')
+print("Validation")
+print(validation_data)
+print("-"*60 + '\n')
+print("Test")
+print(test_data)
+print("-"*60 + '\n')
 
 ## Drop cos sin day and year from validation dataset ?
+
+## Data Windowing
+#hours = Calculate how many hours are within the dataset
+hours = 7 * 24
+w1 = w.WindowGenerator(input_width=hours, label_width=1, shift=24,
+                     train_df= train_data, val_df= validation_data,  
+                     test_df= test_data, label_columns=['t'])
+#print(w1)
+#days = Calculate how many days are within the dataset
+days = 7 * 24
+w2 = w.WindowGenerator(input_width=days, label_width=1, shift=24,
+                     train_df= train_data, val_df= validation_data,  
+                     test_df= test_data, label_columns=['t'])
+#print(w2)
+
+## Splitting Data Window
+# Stack three slices, the length of the total window.
+example_window = tf.stack([np.array(train_data[:w2.total_window_size]),
+                           np.array(train_data[100:100+w2.total_window_size]),
+                           np.array(train_data[200:200+w2.total_window_size])])
+
+example_inputs, example_labels = w2.split_window(example_window)
+
+print('All shapes are: (batch, time, features)')
+print(f'Window shape: {example_window.shape}')
+print(f'Inputs shape: {example_inputs.shape}')
+print(f'Labels shape: {example_labels.shape}')
+
+## Visualize Windowing and Splits
 
 ## Create tf.data.dataset
 

@@ -1,36 +1,26 @@
-level --> 
-z   --> Elevation/Height (meters)?
-pv  --> Potential Vorticity 
-r   --> Rotation (Vorticity)
-q   --> 
-t   --> temperature?
-u   --> velocity?
-vo -->
-v --> velocity?
-u10 -->
-v10 -->
-t2m -->
-tisr -->
-tcc -->
-tp -->
+## Lat: Latitude
+## Lon: Longitude
+## Time: 
+## Level: hecto-Pascals
+## z:  geopotential                     | Proportional to the height of a pressure level    | [m^(2) s^(−2)]            | 13 levels
+## pv: potential_vorticity              | Potential vorticity                               | [K m^(2) kg^(-1) s^(-1)]  | 13 levels
+## r: relative_humidity                 | Humidity relative to saturation                   | [%]                       | 13 levels
+## q: specific_humidity                 | Mixing ratio of water vapor                       | [kg kg^(−1)]              | 13 levels
+## t: temperature                       | Temperature                                       | [K]                       | 13 levels
+## u: u_component_of_wind               | Wind in x/longitude-direction                     | [m s^(-1)]                | 13 levels
+## vo: vorticity                        | Relative horizontal vorticity                     | [1 s^(-1)]                | 13 levels
+## v: v_component_of_wind               | Wind in y/latitude direction                      | [m s^(-1)]                | 13 levels
+## u10: 10m_u_component_of_wind         | Wind in x/longitude-direction at 10 m height      | [m s^(-1)]                | Sinlge
+## v10: 10m_v_component_of_wind         | Wind in y/latitude-direction at 10 m height       | [m s^(-1)]                | Sinlge
+## t2m: 2m_temperature                  | 2m_temperature                                    | [K]                       | Single
+## tisr: toa_incident_solar_radiation   | Accumulated hourly incident solar radiation       | [J m^(-2)]                | Sinlge
+## tcc: total_cloud_cover               | Fractional cloud cover                            | (0-1)                     | Sinlge
+## tp: total_precipitation              | Hourly precipitation                              | [m]                       | Single
 
 
-
--- 5.625deg
-|   |-- 10m_u_component_of_wind
-|   |-- 10m_v_component_of_wind
-|   |-- 2m_temperature
-|   |-- constants
-|   |-- geopotential
-|   |-- geopotential_500
-|   |-- potential_vorticity
-|   |-- relative_humidity
-|   |-- specific_humidity
-|   |-- temperature
-|   |-- temperature_850
-|   |-- toa_incident_solar_radiation
-|   |-- total_cloud_cover
-|   |-- total_precipitation
-|   |-- u_component_of_wind
-|   |-- v_component_of_wind
-|   `-- vorticity
+    ## Positive u_component_of_wind --> Wind coming from the West
+    ## Negative u_component_of_wind --> Wind coming from the East
+    ## Positive v_component_of_wind --> Wind coming from the South
+    ## Negative v_component_of_wind --> Wind coming from the North
+    ## Wind Speed = sqrt(U*U + V*V)
+    ## Wind Direction Angle = arctan(V/U

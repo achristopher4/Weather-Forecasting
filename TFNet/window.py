@@ -5,6 +5,7 @@
 
 import pandas as pd
 import numpy as np
+import tensorflow as tf
 
 """
 Overview:
@@ -60,3 +61,54 @@ class WindowGenerator():
             f'Input indices: {self.input_indices}',
             f'Label indices: {self.label_indices}',
             f'Label column name(s): {self.label_columns}'])
+    
+    def split_window(self, features):
+        inputs = features[:, self.input_slice, :]
+        labels = features[:, self.labels_slice, :]
+        if self.label_columns is not None:
+            labels = tf.stack(
+                [labels[:, :, self.column_indices[name]] for name in self.label_columns],
+                axis=-1)
+
+        # Slicing doesn't preserve static shape information, so set the shapes
+        # manually. This way the `tf.data.Datasets` are easier to inspect.
+        inputs.set_shape([None, self.input_width, None])
+        labels.set_shape([None, self.label_width, None])
+
+        return inputs, labels
+    
+    def make_dataset(self, data):
+        data = np.array(data, dtype=np.float32)
+        ds = tf.keras.utils.timeseries_dataset_from_array(
+            data=data,
+            targets=None,
+            sequence_length=self.total_window_size,
+            sequence_stride=1,
+            shuffle=True,
+            batch_size=32,)
+
+        ds = ds.map(self.split_window)
+        return ds
+    
+    @property
+    def train(self):
+        return self.make_dataset(self.train_df)
+
+    @property
+    def val(self):
+        return self.make_dataset(self.val_df)
+
+    @property
+    def test(self):
+        return self.make_dataset(self.test_df)
+
+    @property
+    def example(self):
+        """Get and cache an example batch of `inputs, labels` for plotting."""
+        result = getattr(self, '_example', None)
+        if result is None:
+            # No example batch was found, so get one from the `.train` dataset
+            result = next(iter(self.train))
+            # And cache it for next time
+            self._example = result
+        return result
