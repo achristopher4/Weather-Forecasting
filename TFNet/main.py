@@ -109,10 +109,9 @@ plt.show()"""
 
 ## Generating validation and test dataset
 start_test_date = "2018-01-07 00:00:00"
-end_test_date = "2018-01-07 23:00:00"
 
-train_data = data[start_test_date < data["time"]]
-test_data = data[(start_test_date >= data["time"])]
+train_data = data[data["time"] < start_test_date ]
+test_data = data[data["time"] >= start_test_date ]
 
 #date_time = pd.to_datetime(train_data.pop('time'), format= "%Y-%m-%d %H:%M:%S")
 date_time = pd.to_datetime(train_data['time'], format= "%Y-%m-%d %H:%M:%S")
@@ -205,10 +204,9 @@ print()
 
 ## Split data into training and validation datasets
 start_val_date = "2018-01-06 00:00:00"
-end_val_date = "2018-01-06 23:00:00"
 
-train_data = train_data[train_data["time"] <= start_val_date ]
-validation_data = train_data[train_data["time"] > start_val_date]
+train_data = train_data[train_data["time"] < start_val_date ]
+validation_data = train_data[train_data["time"] >= start_val_date ]
 
 print("Train")
 print(train_data)
@@ -219,6 +217,7 @@ print("-"*60 + '\n')
 print("Test")
 print(test_data)
 print("-"*60 + '\n')
+print()
 
 ## Drop cos sin day and year from validation dataset ?
 
