@@ -12,7 +12,8 @@ import IPython.display
 import matplotlib as mpl
 import seaborn as sns
 
-
+SEED = 44
+tf.random.set_seed(SEED)
 
 class Model():
     def __init__(self, train, validation, test) -> None:

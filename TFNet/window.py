@@ -7,6 +7,9 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 
+SEED = 44
+tf.random.set_seed(SEED)
+
 """
 Overview:
     Make a set of predictions based on a window of consecutive samples from the data.
@@ -27,7 +30,7 @@ class WindowGenerator():
     def __init__(self, input_width, label_width, shift, train_df, 
                     val_df, test_df, label_columns=None):
         ## Includes all the necessary logic for the input and label indices.
-        
+
         ## Store raw data
         self.train = train_df
         self.val = val_df
@@ -90,7 +93,7 @@ class WindowGenerator():
         ds = ds.map(self.split_window)
         return ds
     
-    @property
+    """@property
     def train(self):
         return self.make_dataset(self.train_df)
 
@@ -104,7 +107,7 @@ class WindowGenerator():
 
     @property
     def example(self):
-        """Get and cache an example batch of `inputs, labels` for plotting."""
+        ""Get and cache an example batch of `inputs, labels` for plotting.""
         result = getattr(self, '_example', None)
         if result is None:
             # No example batch was found, so get one from the `.train` dataset
@@ -112,3 +115,4 @@ class WindowGenerator():
             # And cache it for next time
             self._example = result
         return result
+    """
