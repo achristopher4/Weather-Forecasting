@@ -211,7 +211,7 @@ start_val_date = "2018-01-06 00:00:00"
 validation_data = train_data[train_data["time"] >= start_val_date ]
 train_data = train_data[train_data["time"] < start_val_date ]
 
-preprocess_export_path = "../Data/Preprocessing"
+preprocess_export_path = "../Data/Preprocessing/"
 train_data.to_csv(preprocess_export_path + 'train.csv')
 validation_data.to_csv(preprocess_export_path + 'validation.csv')
 test_data.to_csv(preprocess_export_path + 'test.csv')
@@ -242,7 +242,7 @@ model = m.Model(train_data, validation_data, test_data)
 #base_model = model.base()
 
 ## TFNet
-tfnet_model = model.tfnet()
+tfnet_model = model.TFNet()
 
 
 #####################################
