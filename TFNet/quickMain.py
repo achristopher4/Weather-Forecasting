@@ -7,6 +7,10 @@ import model as m
 import window as w
 import tensorflow as tf
 
+SEED = 44
+tf.random.set_seed(SEED)
+np.random.seed(SEED)
+
 #####################################
 ## Import Preprocessed Data
 

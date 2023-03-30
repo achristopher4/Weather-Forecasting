@@ -33,7 +33,9 @@ class WindowGenerator():
     def __init__(self, input_width, label_width, shift, train_df, 
                     val_df, test_df, label_columns=None):
         ## Includes all the necessary logic for the input and label indices.
-
+        tf.random.set_seed(SEED)
+        np.random.seed(SEED)
+        
         # Work out the label column indices.
         self.label_columns = label_columns
         if label_columns is not None:

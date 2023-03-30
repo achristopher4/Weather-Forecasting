@@ -13,13 +13,11 @@ import matplotlib as mpl
 import seaborn as sns
 
 SEED = 44
-tf.random.set_seed(SEED)
 
 class Model():
     def __init__(self, train, validation, test) -> None:
-        seed = 4
-        tf.random.set_seed(seed)
-        np.random.seed(seed)
+        tf.random.set_seed(SEED)
+        np.random.seed(SEED)
         self.baseTrain = train
         self.baseValidation = validation
         self.baseTest = test
