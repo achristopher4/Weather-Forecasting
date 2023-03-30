@@ -14,6 +14,7 @@ import tensorflow as tf
 
 SEED = 44
 tf.random.set_seed(SEED)
+np.random.seed(SEED)
 
 
 #####################################
