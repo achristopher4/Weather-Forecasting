@@ -31,11 +31,6 @@ class WindowGenerator():
                     val_df, test_df, label_columns=None):
         ## Includes all the necessary logic for the input and label indices.
 
-        ## Store raw data
-        self.train = train_df
-        self.val = val_df
-        self.test = test_df
-
         # Work out the label column indices.
         self.label_columns = label_columns
         if label_columns is not None:
@@ -57,6 +52,11 @@ class WindowGenerator():
         self.label_start = self.total_window_size - self.label_width
         self.labels_slice = slice(self.label_start, None)
         self.label_indices = np.arange(self.total_window_size)[self.labels_slice]
+
+        ## Store raw data
+        self.train = train_df
+        self.val = val_df
+        self.test = test_df
 
     def __repr__(self):
         return '\n'.join([
@@ -93,26 +93,37 @@ class WindowGenerator():
         ds = ds.map(self.split_window)
         return ds
     
-    """@property
+    @property
     def train(self):
-        return self.make_dataset(self.train_df)
+        return self._train
+    
+    @train.setter
+    def train(self, train):
+        self._train = self.make_dataset(train)
 
     @property
     def val(self):
-        return self.make_dataset(self.val_df)
+        return self._val
+    
+    @val.setter
+    def val(self, val):
+        self._val = self.make_dataset(val)
 
     @property
     def test(self):
-        return self.make_dataset(self.test_df)
+        return self._test
+    
+    @test.setter
+    def test(self, test):
+        self._test = self.make_dataset(test)
 
-    @property
-    def example(self):
-        ""Get and cache an example batch of `inputs, labels` for plotting.""
-        result = getattr(self, '_example', None)
-        if result is None:
-            # No example batch was found, so get one from the `.train` dataset
-            result = next(iter(self.train))
-            # And cache it for next time
-            self._example = result
-        return result
-    """
+    #@property
+    #def example(self):
+    #    """Get and cache an example batch of `inputs, labels` for plotting."""
+    #    result = getattr(self, '_example', None)
+    #    if result is None:
+    #        # No example batch was found, so get one from the `.train` dataset
+    #        result = next(iter(self.train))
+    #        # And cache it for next time
+    #        self._example = result
+    #    return result
