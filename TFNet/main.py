@@ -256,6 +256,19 @@ print(f'Window shape: {example_window.shape}')
 print(f'Inputs shape: {example_inputs.shape}')
 print(f'Labels shape: {example_labels.shape}\n')
 
+## Window Plot Visualization
+w2.example = example_inputs, example_labels
+#w2.plot()
+#plt.show()
+
+# Each element is an (inputs, label) pair.
+w2_viz = w2.train.element_spec
+print(f"\nEach element is an (inputs, label) pair.\n{w2_viz}\n")
+
+for example_inputs, example_labels in w2.train.take(1):
+    print(f'Inputs shape (batch, time, features): {example_inputs.shape}')
+    print(f'Labels shape (batch, time, features): {example_labels.shape}')
+
 
 #####################################
 

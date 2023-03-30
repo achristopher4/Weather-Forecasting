@@ -23,11 +23,24 @@ trainDateTime = train_data.pop('time')
 valDateTime = validation_data.pop('time')
 testDateTime = test_data.pop('time')
 
+"""
+Idea:
+
+    Segement the train_data into separate dataframes by lat and long
+    Use tf.stack to stack the dataframe ontop of each other
+
+"""
+
 ## Data Windowing
 
 ## Splitting Data Window
 #hours = Calculate how many hours are within the dataset
 hours = 7 * 24
+
+""" Testing for multi lat, longs, levels """
+#latLong = train_data[['lat', 'long']].nunique()
+#levels = 13
+
 w1 = w.WindowGenerator(input_width=hours, label_width=1, shift=24,
                      train_df= train_data, val_df= validation_data,  
                      test_df= test_data, label_columns=['t'])
@@ -54,13 +67,18 @@ print(f'Labels shape: {example_labels.shape}\n')
 ## Create tf.data.dataset
 #tf_dataset = w.WindowGenerator.make_dataset(train_data)
 
+## Window Plot Visualization
+w2.example = example_inputs, example_labels
+#w2.plot()
+#plt.show()
+
 # Each element is an (inputs, label) pair.
 w2_viz = w2.train.element_spec
 print(f"\nEach element is an (inputs, label) pair.\n{w2_viz}\n")
 
 for example_inputs, example_labels in w2.train.take(1):
-  print(f'Inputs shape (batch, time, features): {example_inputs.shape}')
-  print(f'Labels shape (batch, time, features): {example_labels.shape}')
+    print(f'Inputs shape (batch, time, features): {example_inputs.shape}')
+    print(f'Labels shape (batch, time, features): {example_labels.shape}')
 
 #####################################
 
