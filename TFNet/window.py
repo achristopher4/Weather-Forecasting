@@ -58,14 +58,14 @@ class WindowGenerator():
         self.labels_slice = slice(self.label_start, None)
         self.label_indices = np.arange(self.total_window_size)[self.labels_slice]
 
-        #
-        self.examlple = None
-        #
-
         ## Store raw data
         self.train = train_df
         self.val = val_df
         self.test = test_df
+
+        ## Generate example attribute for later use
+        self.example = None
+
 
     def __repr__(self):
         return '\n'.join([
@@ -158,19 +158,11 @@ class WindowGenerator():
     def test(self, test):
         self._test = self.make_dataset(test)
 
-    ############ TESTING ###############
-
     @property
     def example(self):
         return self._example
 
     @example.setter
-    def example(self, inputs = None, labels = None):
-        """Get and cache an example batch of `inputs, labels` for plotting."""
-        result = getattr(self, '_example', None)
-        if result is None:
-            # No example batch was found, so get one from the `.train` dataset
-            result = next(iter(self.train))
-            # And cache it for next time
-            self._example = result
-        self._example = result
+    def example(self, *args, **kwargs):
+        self._example = next(iter(self.train))
+

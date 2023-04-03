@@ -128,10 +128,18 @@ wide_window = w.WindowGenerator(
     train_df= train_data,  val_df= validation_data,  
     test_df= test_data, label_columns=['t'])
 
+print('\nWide Window')
+print(wide_window)
+
+print('\nTesting')
+print(wide_window)
+print()
+
 print('Input shape:', wide_window.example[0].shape)
 print('Output shape:', baseline(wide_window.example[0]).shape)
 
 wide_window.plot(baseline)
+plt.show()
 
 ## TFNet
 #tfnet_model = model.TFNet()
