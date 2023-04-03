@@ -3,9 +3,11 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import model as m
+import Model as m
 import window as w
 import tensorflow as tf
+
+import BaseModel as bm
 
 SEED = 44
 tf.random.set_seed(SEED)
@@ -91,13 +93,28 @@ for example_inputs, example_labels in w2.train.take(1):
 ## Train Model
 
 
+print(f"\nSingle Step Model")
+single_step_window = w.WindowGenerator(input_width= 1, label_width= 1, 
+                                        shift= 1, train_df= train_data, 
+                                        val_df= validation_data,  
+                                        test_df= test_data,
+                                        label_columns= ['t'])
+print(f"{single_step_window}\n")
+
+for example_inputs, example_labels in single_step_window.train.take(1):
+    print(f'Inputs shape (batch, time, features): {example_inputs.shape}')
+    print(f'Labels shape (batch, time, features): {example_labels.shape}')
+print()
+
 model = m.Model(train_data, validation_data, test_data)
+
+single_step = model.singleStep()
 
 ## base model
 #base_model = model.base()
 
 ## TFNet
-tfnet_model = model.TFNet()
+#tfnet_model = model.TFNet()
 
 
 #####################################
