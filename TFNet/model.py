@@ -2,7 +2,7 @@
 ## Date: 28 Feb 2023
 ## Contributors: Alexander Christopher, Werner Hager
 
-import window as w
+import Window as w
 
 import pandas as pd
 import numpy as np

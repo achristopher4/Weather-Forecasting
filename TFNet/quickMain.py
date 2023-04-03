@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import Model as m
-import window as w
+import Window as w
 import tensorflow as tf
 
 import BaseModel as bm
@@ -28,6 +28,8 @@ test_data = pd.read_csv(preprocess_export_path + 'test.csv')
 trainDateTime = train_data.pop('time')
 valDateTime = validation_data.pop('time')
 testDateTime = test_data.pop('time')
+
+column_indices = {name: i for i, name in enumerate(train_data.columns)}
 
 """
 Idea:
@@ -111,7 +113,24 @@ model = m.Model(train_data, validation_data, test_data)
 single_step = model.singleStep()
 
 ## base model
-#base_model = model.base()
+baseline = bm.Baseline(label_index = column_indices['t'])
+baseline.compile(loss=tf.keras.losses.MeanSquaredError(),
+                 metrics=[tf.keras.metrics.MeanAbsoluteError()])
+
+val_performance = {}
+performance = {}
+val_performance['Baseline'] = baseline.evaluate(single_step_window.val)
+performance['Baseline'] = baseline.evaluate(single_step_window.test, verbose=0)
+
+# plotting baseline model
+wide_window = w.WindowGenerator(
+    input_width=24, label_width=24, shift=1,
+    label_columns=['t'])
+
+print('Input shape:', wide_window.example[0].shape)
+print('Output shape:', baseline(wide_window.example[0]).shape)
+
+wide_window.plot(baseline)
 
 ## TFNet
 #tfnet_model = model.TFNet()

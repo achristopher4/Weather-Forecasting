@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import Model as m
-import window as w
+import Window as w
 import tensorflow as tf
 #import test_model as m
 
