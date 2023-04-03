@@ -125,7 +125,8 @@ performance['Baseline'] = baseline.evaluate(single_step_window.test, verbose=0)
 # plotting baseline model
 wide_window = w.WindowGenerator(
     input_width=24, label_width=24, shift=1,
-    label_columns=['t'])
+    train_df= train_data,  val_df= validation_data,  
+    test_df= test_data, label_columns=['t'])
 
 print('Input shape:', wide_window.example[0].shape)
 print('Output shape:', baseline(wide_window.example[0]).shape)
