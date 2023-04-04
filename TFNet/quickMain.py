@@ -20,8 +20,8 @@ np.random.seed(SEED)
 
 preprocess_export_path = "../Data/Preprocessing/"
 train_data = pd.read_csv(preprocess_export_path + 'train.csv').drop(['Unnamed: 0', 'index_x', 'index_y'], axis = 1)
-validation_data = pd.read_csv(preprocess_export_path + 'validation.csv')
-test_data = pd.read_csv(preprocess_export_path + 'test.csv')
+validation_data = pd.read_csv(preprocess_export_path + 'validation.csv').drop(['Unnamed: 0', 'index_x', 'index_y'], axis = 1)
+test_data = pd.read_csv(preprocess_export_path + 'test.csv').drop(['Unnamed: 0'], axis = 1)
 
 #####################################
 
@@ -110,9 +110,6 @@ for example_inputs, example_labels in single_step_window.train.take(1):
     print(f'Labels shape (batch, time, features): {example_labels.shape}')
 print()
 
-model = bm.Model(train_data, validation_data, test_data)
-
-single_step = model.singleStep()
 
 ## Base Model
 print("\n"+ "-"*60 + "\Base Model\n")
@@ -134,15 +131,12 @@ wide_window = w.WindowGenerator(
 print('\nWide Window')
 print(wide_window)
 
-print('\nTesting')
-print(wide_window)
-print()
-
 print('Input shape:', wide_window.example[0].shape)
 print('Output shape:', baseline(wide_window.example[0]).shape)
 
-#wide_window.plot(baseline)
-#plt.show()
+wide_window.plot(baseline)
+plt.show()
+
 
 ## Linear Model
 print("\n"+ "-"*60 + "\nLinear Model\n")
@@ -154,6 +148,15 @@ print('Input shape:', single_step_window.example[0].shape)
 print('Output shape:', linear(single_step_window.example[0]).shape)
 
 linearModel = lm.LinearModel()
+
+#print()
+#print(train_data.shape)
+#print(train_data.columns)
+#print(validation_data.shape)
+#print(validation_data.columns)
+#print(test_data.shape)
+#print(test_data.columns)
+#print()
 
 history = linearModel.compile_and_fit(linear, single_step_window)
 
@@ -173,8 +176,10 @@ axis.set_xticks(range(len(train_data.columns)))
 _ = axis.set_xticklabels(train_data.columns, rotation=90)
 plt.show()
 
+
 ## CNN Model
 #cnn_model = cnn.CNNModel()
+
 
 ## TFNet Model
 #tfnet_model = model.TFNet()

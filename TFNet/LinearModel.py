@@ -41,4 +41,5 @@ class LinearModel(tf.keras.Model):
         history = model.fit(window.train, epochs=MAX_EPOCHS,
                             validation_data=window.val,
                             callbacks=[early_stopping])
+
         return history
