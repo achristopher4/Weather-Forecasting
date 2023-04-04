@@ -1,4 +1,4 @@
-## Base Model 
+## Testing CNN Model 
 ## Date: 4/3/2023
 
 import Window as w
@@ -14,9 +14,8 @@ import matplotlib as mpl
 import seaborn as sns
 
 SEED = 44
-MAX_EPOCHS = 20
 
-class Baseline(tf.keras.Model):
+class CNNModel(tf.keras.Model):
     def __init__(self, label_index = None) -> None:
         super().__init__()
         tf.random.set_seed(SEED)

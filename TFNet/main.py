@@ -6,10 +6,11 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import Model as m
-import Window as w
 import tensorflow as tf
 #import test_model as m
+
+import Window as w
+import BaseModel as bm
 
 
 SEED = 44
@@ -278,13 +279,7 @@ for example_inputs, example_labels in w2.train.take(1):
 ## Train Model
 
 
-model = m.Model(train_data, validation_data, test_data)
 
-## base model
-#base_model = model.base()
-
-## TFNet
-tfnet_model = model.TFNet()
 
 
 #####################################

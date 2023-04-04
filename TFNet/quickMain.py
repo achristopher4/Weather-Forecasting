@@ -3,11 +3,13 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import Model as m
-import Window as w
 import tensorflow as tf
 
+import Window as w
 import BaseModel as bm
+import LinearModel as lm
+import CNNModel as cnn
+
 
 SEED = 44
 tf.random.set_seed(SEED)
@@ -108,11 +110,12 @@ for example_inputs, example_labels in single_step_window.train.take(1):
     print(f'Labels shape (batch, time, features): {example_labels.shape}')
 print()
 
-model = m.Model(train_data, validation_data, test_data)
+model = bm.Model(train_data, validation_data, test_data)
 
 single_step = model.singleStep()
 
-## base model
+## Base Model
+print("\n"+ "-"*60 + "\Base Model\n")
 baseline = bm.Baseline(label_index = column_indices['t'])
 baseline.compile(loss=tf.keras.losses.MeanSquaredError(),
                  metrics=[tf.keras.metrics.MeanAbsoluteError()])
@@ -138,10 +141,42 @@ print()
 print('Input shape:', wide_window.example[0].shape)
 print('Output shape:', baseline(wide_window.example[0]).shape)
 
-wide_window.plot(baseline)
+#wide_window.plot(baseline)
+#plt.show()
+
+## Linear Model
+print("\n"+ "-"*60 + "\nLinear Model\n")
+linear = tf.keras.Sequential([
+    tf.keras.layers.Dense(units=1)
+])
+
+print('Input shape:', single_step_window.example[0].shape)
+print('Output shape:', linear(single_step_window.example[0]).shape)
+
+linearModel = lm.LinearModel()
+
+history = linearModel.compile_and_fit(linear, single_step_window)
+
+val_performance['Linear'] = linear.evaluate(single_step_window.val)
+performance['Linear'] = linear.evaluate(single_step_window.test, verbose=0)
+
+print('Input shape:', wide_window.example[0].shape)
+print('Output shape:', baseline(wide_window.example[0]).shape)
+
+wide_window.plot(linear)
 plt.show()
 
-## TFNet
+plt.bar(x = range(len(train_data.columns)),
+        height=linear.layers[0].kernel[:,0].numpy())
+axis = plt.gca()
+axis.set_xticks(range(len(train_data.columns)))
+_ = axis.set_xticklabels(train_data.columns, rotation=90)
+plt.show()
+
+## CNN Model
+#cnn_model = cnn.CNNModel()
+
+## TFNet Model
 #tfnet_model = model.TFNet()
 
 
