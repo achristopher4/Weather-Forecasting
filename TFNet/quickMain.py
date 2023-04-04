@@ -112,7 +112,7 @@ print()
 
 
 ## Base Model
-print("\n"+ "-"*60 + "\Base Model\n")
+print("\n"+ "-"*60 + "\nBase Model\n")
 baseline = bm.Baseline(label_index = column_indices['t'])
 baseline.compile(loss=tf.keras.losses.MeanSquaredError(),
                  metrics=[tf.keras.metrics.MeanAbsoluteError()])
@@ -134,8 +134,8 @@ print(wide_window)
 print('Input shape:', wide_window.example[0].shape)
 print('Output shape:', baseline(wide_window.example[0]).shape)
 
-wide_window.plot(baseline)
-plt.show()
+#wide_window.plot(baseline)
+#plt.show()
 
 
 ## Linear Model
@@ -148,15 +148,6 @@ print('Input shape:', single_step_window.example[0].shape)
 print('Output shape:', linear(single_step_window.example[0]).shape)
 
 linearModel = lm.LinearModel()
-
-#print()
-#print(train_data.shape)
-#print(train_data.columns)
-#print(validation_data.shape)
-#print(validation_data.columns)
-#print(test_data.shape)
-#print(test_data.columns)
-#print()
 
 history = linearModel.compile_and_fit(linear, single_step_window)
 
@@ -175,6 +166,14 @@ axis = plt.gca()
 axis.set_xticks(range(len(train_data.columns)))
 _ = axis.set_xticklabels(train_data.columns, rotation=90)
 plt.show()
+
+
+## Dense Model
+#dense_model = dm.DenseModel()
+
+
+## Multi-Step Dense Model
+#msDense_model = msd.MultiStepDense() 
 
 
 ## CNN Model
