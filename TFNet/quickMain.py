@@ -8,6 +8,8 @@ import tensorflow as tf
 import Window as w
 import BaseModel as bm
 import LinearModel as lm
+import DenseModel as dm
+import MSDenseModel as msd
 import CNNModel as cnn
 
 
@@ -169,18 +171,37 @@ plt.show()
 
 
 ## Dense Model
-#dense_model = dm.DenseModel()
+print("\n"+ "-"*60 + "\nDense Model\n")
+dense = tf.keras.Sequential([
+    tf.keras.layers.Dense(units=64, activation='relu'),
+    tf.keras.layers.Dense(units=64, activation='relu'),
+    tf.keras.layers.Dense(units=1)
+])
+
+denseModel = dm.DenseModel()
+
+history = denseModel.compile_and_fit(dense, single_step_window)
+
+val_performance['Dense'] = dense.evaluate(single_step_window.val)
+performance['Dense'] = dense.evaluate(single_step_window.test, verbose=0)
+
+wide_window.plot(dense)
+plt.show()
+
 
 
 ## Multi-Step Dense Model
+print("\n"+ "-"*60 + "\nMulti-Step Dense Model\n")
 #msDense_model = msd.MultiStepDense() 
 
 
 ## CNN Model
+print("\n"+ "-"*60 + "\nCNN Model\n")
 #cnn_model = cnn.CNNModel()
 
 
 ## TFNet Model
+print("\n"+ "-"*60 + "\TFNet Model\n")
 #tfnet_model = model.TFNet()
 
 

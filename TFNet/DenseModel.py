@@ -1,5 +1,5 @@
-## Base Linear Model 
-## Date: 4/3/2023
+## Base Dense Model 
+## Date: 4/5/2023
 
 import Window as w
 
@@ -16,7 +16,7 @@ import seaborn as sns
 SEED = 44
 MAX_EPOCHS = 20
 
-class LinearModel(tf.keras.Model):
+class DenseModel(tf.keras.Model):
     def __init__(self, label_index = None) -> None:
         super().__init__()
         tf.random.set_seed(SEED)
@@ -43,3 +43,4 @@ class LinearModel(tf.keras.Model):
                             callbacks=[early_stopping])
 
         return history
+
