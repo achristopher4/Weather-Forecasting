@@ -159,7 +159,7 @@ performance['Linear'] = linear.evaluate(single_step_window.test, verbose=0)
 print('Input shape:', wide_window.example[0].shape)
 print('Output shape:', baseline(wide_window.example[0]).shape)
 
-wide_window.plot(linear)
+"""wide_window.plot(linear)
 plt.show()
 
 plt.bar(x = range(len(train_data.columns)),
@@ -167,7 +167,7 @@ plt.bar(x = range(len(train_data.columns)),
 axis = plt.gca()
 axis.set_xticks(range(len(train_data.columns)))
 _ = axis.set_xticklabels(train_data.columns, rotation=90)
-plt.show()
+plt.show()"""
 
 
 ## Dense Model
@@ -201,7 +201,7 @@ print("\n"+ "-"*60 + "\nCNN Model\n")
 
 
 ## TFNet Model
-print("\n"+ "-"*60 + "\TFNet Model\n")
+print("\n"+ "-"*60 + "\nTFNet Model\n")
 #tfnet_model = model.TFNet()
 
 
