@@ -305,8 +305,6 @@ plt.show()
 
 
 
-
-
 ## TFNet Model
 print("\n"+ "-"*60 + "\nTFNet Model\n")
 #tfnet_model = model.TFNet()
