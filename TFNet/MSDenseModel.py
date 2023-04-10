@@ -28,3 +28,18 @@ class MSDenseModel(tf.keras.Model):
             return inputs
         result = inputs[:, :, self.label_index]
         return result[:, :, tf.newaxis]
+    
+    def compile_and_fit(self, model, window, patience=2):
+        early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
+                                                            patience=patience,
+                                                            mode='min')
+
+        model.compile(loss=tf.keras.losses.MeanSquaredError(),
+                        optimizer=tf.keras.optimizers.Adam(),
+                        metrics=[tf.keras.metrics.MeanAbsoluteError()])
+
+        history = model.fit(window.train, epochs=MAX_EPOCHS,
+                            validation_data=window.val,
+                            callbacks=[early_stopping])
+
+        return history
