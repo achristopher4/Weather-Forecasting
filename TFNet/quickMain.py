@@ -129,19 +129,20 @@ performance['Baseline'] = baseline.evaluate(single_step_window.test, verbose=0)
 
 # plotting baseline model
 wide_window = w.WindowGenerator(
-    input_width=24, label_width=24, shift=1,
+    input_width=24, label_width=17, shift=1,
     train_df= train_data,  val_df= validation_data,  
     test_df= test_data, label_columns=['t'])
 
 print('\nWide Window')
 print(wide_window)
 
-"""
+
 
 print('Input shape:', wide_window.example[0].shape)
 print('Output shape:', baseline(wide_window.example[0]).shape)
 
 #wide_window.plot(baseline)
+plt.title("Base Model")
 #plt.show()
 
 
@@ -172,6 +173,7 @@ plt.bar(x = range(len(train_data.columns)),
 axis = plt.gca()
 axis.set_xticks(range(len(train_data.columns)))
 _ = axis.set_xticklabels(train_data.columns, rotation=90)
+plt.title("Linear Model")
 plt.show()
 
 
@@ -191,6 +193,7 @@ val_performance['Dense'] = dense.evaluate(single_step_window.val)
 performance['Dense'] = dense.evaluate(single_step_window.test, verbose=0)
 
 #wide_window.plot(dense)
+plt.title("Dense Model")
 #plt.show()
 
 
@@ -199,7 +202,8 @@ print("\n"+ "-"*60 + "\nMulti-Step Dense Model\n")
 
 msDense_model = msd.MSDenseModel() 
 
-CONV_WIDTH = 3
+#CONV_WIDTH = 3
+CONV_WIDTH = 24
 conv_window = w.WindowGenerator(
     input_width=CONV_WIDTH, label_width=1,
     shift=1, label_columns=['t'], 
@@ -235,6 +239,7 @@ performance['Multi step dense'] = multi_step_dense.evaluate(conv_window.test, ve
 
 print()
 conv_window.plot(multi_step_dense)
+plt.title("Multi-Step Dense Model")
 plt.show()
 print()
 
@@ -243,7 +248,6 @@ try:
     print('Output shape:', multi_step_dense(wide_window.example[0]).shape)
 except Exception as e:
     print(f'\n{type(e).__name__}:{e}')
-"""
 
 
 
@@ -303,6 +307,7 @@ print('Labels shape:', wide_conv_window.example[1].shape)
 print('Output shape:', conv_model(wide_conv_window.example[0]).shape)
 
 wide_conv_window.plot(conv_model)
+plt.title("CNN Model")
 plt.show()
 
 
