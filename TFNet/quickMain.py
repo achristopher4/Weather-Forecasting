@@ -249,7 +249,8 @@ except Exception as e:
 
 ## CNN Model
 print("\n"+ "-"*60 + "\nCNN Model\n")
-CONV_WIDTH = 3
+#CONV_WIDTH = 3
+CONV_WIDTH = 24
 
 conv_window = w.WindowGenerator(
     input_width=CONV_WIDTH, label_width=1,
@@ -284,7 +285,8 @@ print('Input shape:', wide_window.example[0].shape)
 print('Labels shape:', wide_window.example[1].shape)
 print('Output shape:', conv_model(wide_window.example[0]).shape)
 
-LABEL_WIDTH = 24
+#LABEL_WIDTH = 24
+LABEL_WIDTH = 17
 INPUT_WIDTH = LABEL_WIDTH + (CONV_WIDTH - 1)
 wide_conv_window = w.WindowGenerator(
     input_width=INPUT_WIDTH,
