@@ -32,7 +32,8 @@ class MSDenseModel(tf.keras.Model):
     def compile_and_fit(self, model, window, patience=2):
         early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
                                                             patience=patience,
-                                                            mode='min')
+                                                            mode='min',
+                                                            restore_best_weights = True)
 
         model.compile(loss=tf.keras.losses.MeanSquaredError(),
                         optimizer=tf.keras.optimizers.Adam(),

@@ -129,7 +129,7 @@ performance['Baseline'] = baseline.evaluate(single_step_window.test, verbose=0)
 
 # plotting baseline model
 wide_window = w.WindowGenerator(
-    input_width=24, label_width=17, shift=1,
+    input_width=24, label_width=24, shift=1,
     train_df= train_data,  val_df= validation_data,  
     test_df= test_data, label_columns=['t'])
 
@@ -141,9 +141,9 @@ print(wide_window)
 print('Input shape:', wide_window.example[0].shape)
 print('Output shape:', baseline(wide_window.example[0]).shape)
 
-#wide_window.plot(baseline)
+wide_window.plot(baseline)
 plt.title("Base Model")
-#plt.show()
+plt.show()
 
 
 ## Linear Model
@@ -166,6 +166,7 @@ print('Input shape:', wide_window.example[0].shape)
 print('Output shape:', baseline(wide_window.example[0]).shape)
 
 wide_window.plot(linear)
+plt.title("Linear Model")
 plt.show()
 
 plt.bar(x = range(len(train_data.columns)),
@@ -173,7 +174,7 @@ plt.bar(x = range(len(train_data.columns)),
 axis = plt.gca()
 axis.set_xticks(range(len(train_data.columns)))
 _ = axis.set_xticklabels(train_data.columns, rotation=90)
-plt.title("Linear Model")
+plt.title("Linear Model Weights")
 plt.show()
 
 
@@ -192,9 +193,9 @@ history = denseModel.compile_and_fit(dense, single_step_window)
 val_performance['Dense'] = dense.evaluate(single_step_window.val)
 performance['Dense'] = dense.evaluate(single_step_window.test, verbose=0)
 
-#wide_window.plot(dense)
+wide_window.plot(dense)
 plt.title("Dense Model")
-#plt.show()
+plt.show()
 
 
 ## Multi-Step Dense Model
