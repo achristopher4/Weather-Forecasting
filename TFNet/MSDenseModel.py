@@ -40,7 +40,18 @@ class MSDenseModel(tf.keras.Model):
                         metrics=[tf.keras.metrics.MeanAbsoluteError()])
 
         history = model.fit(window.train, epochs=MAX_EPOCHS,
-                            validation_data=window.val,
-                            callbacks=[early_stopping])
+                            validation_data=window.val ) #,
+                            #callbacks=[early_stopping])
+
+        ## Put plotting function: training and validation loss over epoch
+        # Plot the training history and save the graph.
+        plt.plot(history.history['loss'], label='train')
+        plt.plot(history.history['val_loss'], label='validation')
+        plt.legend()
+        plt.ylabel("MSE")
+        plt.xlabel("Epoch")
+        plt.title("Multi-Step Dense Training & Validation Loss")
+        #plt.savefig("Train_History_MSD.png")
+        plt.show()
 
         return history

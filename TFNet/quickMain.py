@@ -45,6 +45,10 @@ Idea:
 
 """
 
+## Drop all rows in validation & testing not at ground level
+validation_data = validation_data[validation_data['level'] == 1000]
+test_data = validation_data[validation_data['level'] == 1000]
+
 ## Data Windowing
 
 ## Splitting Data Window
