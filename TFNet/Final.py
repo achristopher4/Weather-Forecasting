@@ -69,7 +69,7 @@ LABEL_WIDTH = 17
 INPUT_WIDTH = LABEL_WIDTH + (CONV_WIDTH - 1)
 
 ## Winodw Single Variable
-single_step_window = w.WindowGenerator(input_width= INPUT_WIDTH, label_width= LABEL_WIDTH, 
+single_step_window = w.WindowGenerator(input_width= 1, label_width= 1, 
                                         shift= 1, train_df= train_data, 
                                         val_df= validation_data,  
                                         test_df= test_data,
@@ -77,19 +77,19 @@ single_step_window = w.WindowGenerator(input_width= INPUT_WIDTH, label_width= LA
 
 ## Wide Window Single Variable ('t')
 wide_window = w.WindowGenerator(
-    input_width=INPUT_WIDTH, label_width=LABEL_WIDTH, shift=1,
+    input_width=24, label_width=24, shift=1,
     train_df= train_data,  val_df= validation_data,  
     test_df= test_data, label_columns=['t'])
 
 ## Wide Window Multi Variable ('t', 'r', 'u', 'v', 'tp', 'tcc', 'tisr')
 mv_wide_window = w.WindowGenerator(
-    input_width=INPUT_WIDTH, label_width=LABEL_WIDTH, shift=1,
+    input_width=24, label_width=24, shift=1,
     train_df= train_data,  val_df= validation_data,  
     test_df= test_data, label_columns=['t', 'r', 'u', 'v', 'tp', 'tcc', 'tisr'])
 
 ## Convoluation Window
 conv_window = w.WindowGenerator(
-    input_width=CONV_WIDTH, label_width=LABEL_WIDTH,
+    input_width=CONV_WIDTH, label_width=1,
     shift=1, label_columns=['t'], 
     train_df= train_data, val_df= validation_data,  
     test_df= test_data,
@@ -277,6 +277,12 @@ print('Output shape:', conv_model(wide_conv_window.example[0]).shape)
 wide_conv_window.plot(conv_model)
 plt.title("CNN Model")
 plt.show()
+
+#########################################################
+
+###########             LSTM Model           #############
+
+#########################################################
 
 ##########################################################################
 
