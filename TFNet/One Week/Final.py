@@ -19,7 +19,7 @@ np.random.seed(SEED)
 ##########################################################################
 ## Data Selection and Importation 
 
-preprocess_export_path = "../Data/One_Week_Preprocessing/"
+preprocess_export_path = "../../Data/One_Week_Preprocessing/"
 train_data = pd.read_csv(preprocess_export_path + 'train.csv').drop(['Unnamed: 0', 'index_x', 'index_y'], axis = 1)
 validation_data = pd.read_csv(preprocess_export_path + 'validation.csv').drop(['Unnamed: 0', 'index_x', 'index_y'], axis = 1)
 test_data = pd.read_csv(preprocess_export_path + 'test.csv').drop(['Unnamed: 0'], axis = 1)
@@ -120,7 +120,7 @@ performance = {}
 ##########################################################################
 ## Train Model
 
-
+"""
 ###########           Base Model            #############
 print("\n"+ "-"*60 + "\nBase Model\n")
 baseline = mc.ModelConstructor(label_index = column_indices['t'])
@@ -236,7 +236,7 @@ try:
     print('Output shape:', multi_step_dense(wide_window.example[0]).shape)
 except Exception as e:
     print(f'\n{type(e).__name__}:{e}')
-
+"""
 #########################################################
 
 ###########             CNN Model           #############
@@ -246,7 +246,8 @@ conv_model = tf.keras.Sequential([
     tf.keras.layers.Conv1D(filters=32,
                            kernel_size=(CONV_WIDTH,),
                            activation='relu'),
-    tf.keras.layers.Dense(units=32, activation='relu'),
+    tf.keras.layers.Dense(units=64, activation='relu'),
+    tf.keras.layers.Dense(units=64, activation='relu'),
     tf.keras.layers.Dense(units=1),
 ])
 
@@ -256,7 +257,7 @@ print('Output shape:', conv_model(conv_window.example[0]).shape)
 
 cnn_model = mc.ModelConstructor()
 
-history = cnn_model.compile_and_fit(conv_model, conv_window, model_type_name = "CNN")
+history = cnn_model.compile_and_fit(conv_model, conv_window, patience = 8, model_type_name = "CNN")
 
 IPython.display.clear_output()
 val_performance['Conv'] = conv_model.evaluate(conv_window.val)

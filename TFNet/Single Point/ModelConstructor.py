@@ -31,7 +31,7 @@ class ModelConstructor(tf.keras.Model):
         result = inputs[:, :, self.label_index]
         return result[:, :, tf.newaxis]
     
-    def compile_and_fit(self, model, window, patience=2, model_type_name = ""):
+    def compile_and_fit(self, model, window, patience=0, model_type_name = ""):
         early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
                                                             patience=patience,
                                                             mode='min',
@@ -41,9 +41,13 @@ class ModelConstructor(tf.keras.Model):
                         optimizer=tf.keras.optimizers.Adam(),
                         metrics=[tf.keras.metrics.MeanAbsoluteError()])
 
-        history = model.fit(window.train, epochs=MAX_EPOCHS,
-                            validation_data=window.val )#,
-                            #callbacks=[early_stopping])
+        if patience == 0:
+            history = model.fit(window.train, epochs=MAX_EPOCHS,
+                                validation_data=window.val )
+        else:
+            history = model.fit(window.train, epochs=MAX_EPOCHS,
+                                validation_data=window.val,
+                                callbacks=[early_stopping])
         
         ## Put plotting function: training and validation loss over epoch
         # Plot the training history and save the graph.

@@ -121,7 +121,7 @@ performance = {}
 
 ##########################################################################
 ## Train Model
-
+"""
 
 ###########           Base Model            #############
 print("\n"+ "-"*60 + "\nBase Model\n")
@@ -238,7 +238,7 @@ try:
     print('Output shape:', multi_step_dense(wide_window.example[0]).shape)
 except Exception as e:
     print(f'\n{type(e).__name__}:{e}')
-
+"""
 #########################################################
 
 ###########             CNN Model           #############
@@ -248,7 +248,8 @@ conv_model = tf.keras.Sequential([
     tf.keras.layers.Conv1D(filters=32,
                            kernel_size=(CONV_WIDTH,),
                            activation='relu'),
-    tf.keras.layers.Dense(units=32, activation='relu'),
+    #tf.keras.layers.Dense(units=32, activation='relu'),
+    tf.keras.layers.Dense(units=64, activation='relu'),
     tf.keras.layers.Dense(units=1),
 ])
 
@@ -258,7 +259,7 @@ print('Output shape:', conv_model(conv_window.example[0]).shape)
 
 cnn_model = mc.ModelConstructor()
 
-history = cnn_model.compile_and_fit(conv_model, conv_window, model_type_name = "CNN")
+history = cnn_model.compile_and_fit(conv_model, conv_window, patience = 10, model_type_name = "CNN")
 
 IPython.display.clear_output()
 val_performance['Conv'] = conv_model.evaluate(conv_window.val)
