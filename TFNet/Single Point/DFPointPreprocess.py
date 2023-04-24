@@ -23,7 +23,7 @@ data = data.dropna()
 ##########################################################################
 ## Data Transformation for Baseline
 
-data = data.drop(['vo', 'pv'], axis = 1)
+#data = data.drop(['vo', 'pv'], axis = 1)
 
 # Wind Speed = ws
 data["ws"] = data.apply(lambda x: math.sqrt((x['u'] * x['u']) + (x['v'] * x['v'])), axis=1)

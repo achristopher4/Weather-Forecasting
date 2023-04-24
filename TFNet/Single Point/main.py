@@ -122,7 +122,7 @@ performance = {}
 ##########################################################################
 ## Train Model
 
-
+"""
 ###########           Base Model            #############
 print("\n"+ "-"*60 + "\nBase Model\n")
 baseline = mc.ModelConstructor(label_index = column_indices['t'])
@@ -178,10 +178,12 @@ _ = axis.set_xticklabels(train_data.columns, rotation=90)
 plt.title("Linear Model Weights")
 plt.show()
 #########################################################
-
+"""
 ###########     Single Step Dense Model     #############
 print("\n"+ "-"*60 + "\nDense Model\n")
 dense = tf.keras.Sequential([
+    tf.keras.layers.Dense(units=64, activation='relu'),
+    tf.keras.layers.Dense(units=64, activation='relu'),
     tf.keras.layers.Dense(units=64, activation='relu'),
     tf.keras.layers.Dense(units=64, activation='relu'),
     tf.keras.layers.Dense(units=1)
@@ -198,7 +200,7 @@ wide_window.plot(dense)
 plt.title("Dense Model")
 plt.show()
 #########################################################
-
+"""
 ###########     Multi Step Dense Model      #############
 print("\n"+ "-"*60 + "\nMulti-Step Dense Model\n")
 
@@ -287,5 +289,5 @@ plt.show()
 #########################################################
 
 ##########################################################################
-
+"""
 
