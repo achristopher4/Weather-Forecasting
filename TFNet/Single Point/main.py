@@ -12,14 +12,14 @@ import Window as w
 import ModelConstructor as mc
 
 
-SEED = 44
+SEED = 42
 tf.random.set_seed(SEED)
 np.random.seed(SEED)
 
 ##########################################################################
 ## Data Selection and Importation 
 
-preprocess_export_path = "../../Data/Single_Point_Preprocessing/"
+preprocess_export_path = "../../Data/Single_Point_Base/"
 
 
 train_data = pd.read_csv(preprocess_export_path + 'train.csv').drop(['Unnamed: 0'], axis = 1)
@@ -84,10 +84,10 @@ wide_window = w.WindowGenerator(
     test_df= test_data, label_columns=['t'])
 
 ## Wide Window Multi Variable ('t', 'r', 'u', 'v', 'tp', 'tcc', 'tisr')
-mv_wide_window = w.WindowGenerator(
-    input_width=24, label_width=24, shift=1,
-    train_df= train_data,  val_df= validation_data,  
-    test_df= test_data, label_columns=['t', 'r', 'u', 'v', 'tp', 'tcc', 'tisr'])
+#mv_wide_window = w.WindowGenerator(
+#    input_width=24, label_width=24, shift=1,
+#    train_df= train_data,  val_df= validation_data,  
+#    test_df= test_data, label_columns=['t', 'r', 'u', 'v', 'tp', 'tcc', 'tisr'])
 
 ## Convoluation Window
 conv_window = w.WindowGenerator(
@@ -121,7 +121,7 @@ performance = {}
 
 ##########################################################################
 ## Train Model
-"""
+
 
 ###########           Base Model            #############
 print("\n"+ "-"*60 + "\nBase Model\n")
@@ -238,7 +238,7 @@ try:
     print('Output shape:', multi_step_dense(wide_window.example[0]).shape)
 except Exception as e:
     print(f'\n{type(e).__name__}:{e}')
-"""
+
 #########################################################
 
 ###########             CNN Model           #############
@@ -249,7 +249,6 @@ conv_model = tf.keras.Sequential([
                            kernel_size=(CONV_WIDTH,),
                            activation='relu'),
     #tf.keras.layers.Dense(units=32, activation='relu'),
-    tf.keras.layers.Dense(units=64, activation='relu'),
     tf.keras.layers.Dense(units=1),
 ])
 
@@ -259,7 +258,7 @@ print('Output shape:', conv_model(conv_window.example[0]).shape)
 
 cnn_model = mc.ModelConstructor()
 
-history = cnn_model.compile_and_fit(conv_model, conv_window, patience = 10, model_type_name = "CNN")
+history = cnn_model.compile_and_fit(conv_model, conv_window, patience = 4, model_type_name = "CNN")
 
 IPython.display.clear_output()
 val_performance['Conv'] = conv_model.evaluate(conv_window.val)
